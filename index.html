@@ -1,0 +1,4650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; connect-src 'self' http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* https://cdn.jsdelivr.net https://bsc-dataseed.binance.org https://bsc-dataseed1.binance.org https://bsc-dataseed2.binance.org https://bsc-dataseed3.binance.org https://bsc-dataseed4.binance.org https://*.binance.org https://data-seed-prebsc-1-s1.binance.org:8545 https://data-seed-prebsc-2-s1.binance.org:8545 https://bsc-testnet.bnbchain.org https://bsc-testnet.publicnode.com https://*.bnbchain.org https://*.publicnode.com https://rpc.ankr.com https://*.infura.io https://*.nodereal.io https://bsc.publicnode.com https://1rpc.io wss://*.binance.org wss://bsc-ws-node.nariox.org wss://*.binance.dev">
+<title>Tiny Winged Dragon (TWD)</title>
+<script>
+(function () {
+  var p = location.pathname || '/';
+  var dir = p.endsWith('/') ? p : p.replace(/\/[^/]*$/, '/');
+  if (dir.indexOf('/') !== 0) dir = '/' + dir;
+  window.__TWD_ASSET_BASE__ = location.origin + dir;
+})();
+</script>
+<!-- 图标与站点同目录部署；GitHub Pages 发布到 twd-frontend 后 TP 可识别 -->
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="icon" type="image/x-icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#667eea">
+<meta name="application-name" content="Tiny Winged Dragon TWD">
+<meta property="og:title" content="Tiny Winged Dragon (TWD)">
+<meta property="og:description" content="Tiny Winged Dragon Token">
+<meta property="og:image" content="icon-512.png">
+<meta property="og:type" content="website">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+min-height: 100vh;
+color: #fff;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 12px;
+}
+
+@media (max-width: 375px) {
+.container {
+padding: 10px;
+}
+}
+
+@media (min-width: 768px) {
+.container {
+padding: 20px;
+}
+}
+
+.top-banner {
+width: 100%;
+margin-bottom: 16px;
+}
+
+.top-banner img {
+display: block;
+width: 100%;
+height: clamp(140px, 30vh, 200px);
+object-fit: cover;
+border-radius: 16px;
+}
+
+.hero-title {
+width: 100%;
+text-align: center;
+padding: clamp(20px, 8vh, 50px) 16px;
+margin-bottom: clamp(10px, 3vh, 20px);
+}
+
+.hero-title.hidden {
+display: none;
+}
+
+.hero-title h1 {
+font-size: clamp(36px, 10vw, 72px);
+font-weight: 700;
+margin: 0;
+margin-bottom: 8px;
+background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1.1;
+}
+
+.hero-title h2 {
+font-size: clamp(20px, 5vw, 36px);
+font-weight: 500;
+margin: 16px 0 0 0;
+color: #f093fb;
+letter-spacing: 6px;
+}
+
+.status-bar {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 8px;
+margin-bottom: 16px;
+}
+
+.status-dot {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: #666;
+}
+
+.status-dot.connected {
+background: #00d26a;
+box-shadow: 0 0 8px #00d26a;
+}
+
+.hold-wallet-row {
+align-items: center;
+}
+
+.hold-wallet-label {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.hold-wallet-value {
+font-family: ui-monospace, monospace;
+font-size: 12px;
+color: #00ff88;
+word-break: break-all;
+}
+
+.status-text {
+font-size: 12px;
+color: rgba(255,255,255,0.6);
+}
+
+.wallet-section {
+text-align: center;
+padding: clamp(20px, 6vh, 60px) 20px;
+}
+
+.connect-btn {
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: #fff;
+border: none;
+padding: clamp(12px, 3vh, 16px) clamp(30px, 10vw, 50px);
+border-radius: clamp(24px, 8vh, 30px);
+font-size: clamp(14px, 4vw, 18px);
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+}
+
+.hidden {
+display: none !important;
+}
+
+.card {
+background: rgba(255,255,255,0.08);
+border-radius: 16px;
+padding: clamp(12px, 3vw, 16px);
+margin-bottom: clamp(10px, 2.5vh, 16px);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.1);
+}
+
+@media (min-width: 768px) {
+.card {
+padding: 20px;
+margin-bottom: 20px;
+}
+}
+
+.card-title {
+font-size: 14px;
+font-weight: 600;
+margin-bottom: 12px;
+color: rgba(255,255,255,0.9);
+}
+
+.token-info {
+text-align: center;
+}
+
+.token-name {
+font-size: 18px;
+font-weight: 600;
+margin-bottom: 8px;
+}
+
+.token-price {
+font-size: 28px;
+font-weight: 700;
+color: #00d26a;
+margin-bottom: 4px;
+}
+
+.token-change {
+font-size: 13px;
+color: rgba(255,255,255,0.6);
+}
+
+.lock-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
+width: 100%;
+}
+
+.lock-card {
+background: rgba(255,255,255,0.05);
+border-radius: 12px;
+padding: 14px;
+text-align: center;
+box-sizing: border-box;
+}
+
+.lock-card.private {
+border-left: 3px solid #00d26a;
+}
+
+.lock-card.project {
+border-left: 3px solid #ffc107;
+}
+
+.lock-label {
+font-size: 12px;
+color: rgba(255,255,255,0.6);
+margin-bottom: 6px;
+}
+
+.lock-value {
+font-size: 18px;
+font-weight: 700;
+}
+
+.lock-card.private .lock-value {
+color: #00d26a;
+}
+
+.lock-card.project .lock-value {
+color: #ffc107;
+}
+
+.progress-block {
+margin-top: 14px;
+}
+
+.progress-track {
+height: 10px;
+background: rgba(255,255,255,0.1);
+border-radius: 999px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #667eea, #00d26a);
+border-radius: 999px;
+transition: width 0.4s ease;
+}
+
+.progress-fill-total {
+background: linear-gradient(90deg, #764ba2, #f093fb);
+}
+
+.progress-bar {
+height: 4px;
+background: rgba(255,255,255,0.1);
+border-radius: 2px;
+margin-top: 8px;
+overflow: hidden;
+}
+
+.progress-bar .fill {
+height: 100%;
+border-radius: 2px;
+transition: width 0.3s;
+}
+
+.progress-bar.green .fill {
+background: linear-gradient(90deg, #00d26a, #00ff88);
+}
+
+.progress-bar.yellow .fill {
+background: linear-gradient(90deg, #ffc107, #ffdd59);
+}
+
+.phase-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+}
+
+.phase-item {
+text-align: center;
+padding: 10px;
+background: rgba(255,255,255,0.05);
+border-radius: 8px;
+}
+
+.phase-item.active {
+background: linear-gradient(145deg, rgba(0,210,106,0.4), rgba(0,130,70,0.5));
+border: 2px solid #00d26a;
+box-shadow: 0 0 16px rgba(0,255,136,0.5), 0 4px 12px rgba(0,168,84,0.35);
+transform: scale(1.04);
+position: relative;
+z-index: 1;
+}
+
+.phase-num {
+font-size: 16px;
+font-weight: 600;
+margin-bottom: 4px;
+}
+
+.phase-item.active .phase-num {
+color: #00ff88;
+text-shadow: 0 0 8px rgba(0,255,136,0.75);
+}
+
+.phase-item.active .phase-label {
+color: #fff;
+font-weight: 600;
+}
+
+.phase-label {
+font-size: 11px;
+color: rgba(255,255,255,0.5);
+}
+
+.user-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
+}
+
+.user-item {
+background: rgba(255,255,255,0.05);
+border-radius: 10px;
+padding: 12px;
+}
+
+.user-label {
+font-size: 11px;
+color: rgba(255,255,255,0.5);
+margin-bottom: 4px;
+}
+
+.user-value {
+font-size: 14px;
+font-weight: 600;
+}
+
+.btn-group {
+display: flex;
+gap: 10px;
+margin-top: 16px;
+}
+
+.btn {
+flex: 1;
+padding: 14px;
+border-radius: 12px;
+border: none;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-primary {
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: #fff;
+}
+
+.btn-green {
+background: linear-gradient(135deg, #00d26a, #00b85c);
+color: #fff;
+}
+
+.btn-yellow {
+background: linear-gradient(135deg, #ffc107, #e0a800);
+color: #1a1a2e;
+}
+
+.btn-lang {
+background: rgba(255,255,255,0.1);
+border: 1px solid rgba(255,255,255,0.2);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.btn-lang:hover {
+background: rgba(255,255,255,0.2);
+}
+
+.lang-dropdown {
+display: flex;
+justify-content: center;
+margin-top: 10px;
+}
+
+.lang-dropdown select {
+background: rgba(255,255,255,0.1);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius: 8px;
+color: #fff;
+padding: 10px 20px;
+font-size: 14px;
+cursor: pointer;
+outline: none;
+min-width: 140px;
+}
+
+.lang-dropdown select:hover {
+background: rgba(255,255,255,0.15);
+}
+
+/* —?Stable 风格：顶?+ 侧滑菜单 + 菜单内语言（无原生 select）—?*/
+.app-topbar {
+position: sticky;
+top: 0;
+z-index: 100;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px 4px 14px;
+margin: -4px -4px 8px;
+background: linear-gradient(180deg, rgba(10, 14, 28, 0.94) 0%, rgba(10, 14, 28, 0.72) 100%);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(100, 200, 255, 0.12);
+box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.app-brand {
+display: flex;
+align-items: center;
+gap: 10px;
+font-weight: 700;
+font-size: 17px;
+letter-spacing: 0.06em;
+color: #fff;
+}
+
+.app-brand-mark img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+border-radius: 8px;
+}
+.app-brand-mark {
+width: 36px;
+height: 36px;
+border-radius: 10px;
+background: linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(139, 92, 246, 0.45));
+border: 1px solid rgba(147, 197, 253, 0.35);
+box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+line-height: 1;
+}
+
+.app-brand-text {
+background: linear-gradient(135deg, #7dd3fc, #a78bfa, #c084fc);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.app-menu-btn {
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+width: 44px;
+height: 44px;
+border-radius: 12px;
+border: 1px solid rgba(147, 197, 253, 0.25);
+background: rgba(255, 255, 255, 0.06);
+color: #e0f2fe;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 5px;
+cursor: pointer;
+box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.15);
+}
+
+.app-menu-btn span {
+display: block;
+width: 18px;
+height: 2px;
+border-radius: 1px;
+background: linear-gradient(90deg, #7dd3fc, #a78bfa);
+}
+
+.menu-overlay {
+position: fixed;
+inset: 0;
+z-index: 1000;
+background: rgba(5, 8, 18, 0.88);
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+display: flex;
+flex-direction: column;
+animation: menuIn 0.22s ease-out;
+}
+
+@keyframes menuIn {
+from { opacity: 0; transform: translateX(12px); }
+to { opacity: 1; transform: translateX(0); }
+}
+
+.menu-overlay-panel {
+flex: 1;
+max-width: 100%;
+width: min(100%, 400px);
+margin-left: auto;
+background: linear-gradient(165deg, rgba(22, 28, 48, 0.98) 0%, rgba(12, 16, 32, 0.99) 100%);
+border-left: 1px solid rgba(99, 102, 241, 0.25);
+box-shadow: -16px 0 48px rgba(0, 0, 0, 0.5);
+padding: 16px 18px 28px;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+
+.menu-overlay-head {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 28px;
+padding-bottom: 16px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-overlay-title {
+font-size: 13px;
+font-weight: 600;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: rgba(165, 243, 252, 0.85);
+}
+
+.menu-close-btn {
+-webkit-tap-highlight-color: transparent;
+width: 40px;
+height: 40px;
+border-radius: 10px;
+border: 1px solid rgba(255, 255, 255, 0.12);
+background: rgba(255, 255, 255, 0.05);
+color: #fff;
+font-size: 22px;
+line-height: 1;
+cursor: pointer;
+}
+
+.menu-section-label {
+font-size: 11px;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.38);
+margin-bottom: 12px;
+}
+
+.lang-menu-trigger {
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+width: 100%;
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 16px;
+border-radius: 14px;
+border: 1px solid rgba(147, 197, 253, 0.22);
+background: rgba(255, 255, 255, 0.04);
+color: #fff;
+font-size: 15px;
+cursor: pointer;
+box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.lang-menu-trigger .lang-flag {
+font-size: 22px;
+line-height: 1;
+}
+
+.lang-menu-trigger .lang-short {
+font-weight: 700;
+letter-spacing: 0.08em;
+min-width: 36px;
+color: #a5f3fc;
+}
+
+.lang-menu-trigger .lang-chevron {
+margin-left: auto;
+font-size: 12px;
+color: rgba(255, 255, 255, 0.45);
+transition: transform 0.2s;
+}
+
+.lang-menu-trigger.open .lang-chevron {
+transform: rotate(180deg);
+}
+
+.lang-menu-list {
+display: none;
+margin-top: 10px;
+border-radius: 14px;
+overflow: hidden;
+border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.lang-menu-list.open {
+display: block;
+pointer-events: auto;
+}
+
+.lang-menu-row {
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+width: 100%;
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 16px;
+border: none;
+border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+background: rgba(15, 20, 40, 0.95);
+color: #fff;
+font-size: 15px;
+text-align: left;
+cursor: pointer;
+}
+
+.lang-menu-row:last-child {
+border-bottom: none;
+}
+
+.lang-menu-row.active {
+background: linear-gradient(90deg, rgba(99, 102, 241, 0.28), rgba(56, 189, 248, 0.12));
+box-shadow: inset 3px 0 0 #7dd3fc;
+}
+
+.menu-hint {
+margin-top: 24px;
+font-size: 12px;
+line-height: 1.6;
+color: rgba(255, 255, 255, 0.38);
+}
+
+.btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.btn:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+transform: none;
+}
+
+.input-group {
+margin-bottom: 12px;
+}
+
+.input-label {
+font-size: 12px;
+color: rgba(255,255,255,0.6);
+margin-bottom: 6px;
+display: block;
+}
+
+.input-field {
+width: 100%;
+padding: 12px;
+border-radius: 10px;
+border: 1px solid rgba(255,255,255,0.1);
+background: rgba(255,255,255,0.05);
+color: #fff;
+font-size: 14px;
+outline: none;
+}
+
+.input-field:focus {
+border-color: #667eea;
+}
+
+.toast {
+position: fixed;
+top: 20px;
+left: 50%;
+transform: translateX(-50%) translateY(-100px);
+background: rgba(0,0,0,0.9);
+color: #fff;
+padding: 12px 24px;
+border-radius: 8px;
+font-size: 14px;
+z-index: 1000;
+transition: transform 0.3s;
+max-width: 90%;
+text-align: center;
+}
+
+.toast.show {
+transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { border-left: 3px solid #00d26a; }
+.toast.error { border-left: 3px solid #ff4757; }
+
+.refresh-btn {
+display: none;
+position: fixed;
+bottom: 24px;
+right: 24px;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background: linear-gradient(135deg, #667eea, #764ba2);
+border: none;
+color: #fff;
+cursor: pointer;
+box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+align-items: center;
+justify-content: center;
+}
+
+.refresh-btn:hover:not(:disabled) {
+transform: scale(1.1);
+}
+
+.refresh-btn:disabled {
+opacity: 0.45;
+cursor: not-allowed;
+pointer-events: none;
+box-shadow: none;
+}
+
+.refresh-btn.is-busy:not(:disabled) {
+opacity: 0.7;
+}
+
+.refresh-btn.spinning svg {
+animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+
+.error-box {
+background: rgba(255,71,87,0.15);
+border: 1px solid rgba(255,71,87,0.3);
+border-radius: 10px;
+padding: 10px;
+margin-top: 12px;
+font-size: 13px;
+color: #ff6b6b;
+display: none;
+}
+
+.error-box.show {
+display: block;
+}
+
+@media (min-width: 768px) {
+.container {
+padding: 24px;
+}
+
+.lock-grid {
+grid-template-columns: repeat(4, 1fr);
+}
+
+.user-grid {
+grid-template-columns: repeat(4, 1fr);
+}
+
+.phase-grid {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+.tab-nav {
+display: flex;
+gap: 8px;
+margin-bottom: 16px;
+overflow-x: auto;
+padding-bottom: 8px;
+}
+
+.tab-btn {
+padding: 10px 16px;
+border-radius: 20px;
+border: 1px solid rgba(255,255,255,0.1);
+background: transparent;
+color: rgba(255,255,255,0.6);
+font-size: 13px;
+cursor: pointer;
+white-space: nowrap;
+}
+
+.tab-btn.active {
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: #fff;
+border: none;
+}
+
+.tab-content {
+display: none;
+}
+
+.tab-content.active {
+display: block;
+}
+
+.data-row {
+display: flex;
+justify-content: space-between;
+padding: 10px 0;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.data-row:last-child {
+border-bottom: none;
+}
+
+.data-label {
+font-size: 13px;
+color: rgba(255,255,255,0.6);
+}
+
+.data-value {
+font-size: 13px;
+font-weight: 500;
+}
+
+.phase-reward-card {
+background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+border-radius: 12px;
+padding: 20px;
+text-align: center;
+}
+
+.phase-reward-header {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 12px;
+margin-bottom: 12px;
+}
+
+.phase-badge {
+background: linear-gradient(135deg, #667eea, #764ba2);
+padding: 6px 16px;
+border-radius: 20px;
+font-size: 14px;
+font-weight: 600;
+}
+
+.phase-reward-text {
+color: rgba(255,255,255,0.7);
+font-size: 14px;
+}
+
+.phase-reward-value {
+font-size: 48px;
+font-weight: 700;
+background: linear-gradient(135deg, #667eea, #764ba2);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+margin-bottom: 16px;
+}
+
+.tier-table {
+width: 100%;
+background: rgba(255,255,255,0.05);
+border-radius: 12px;
+overflow: hidden;
+}
+
+.tier-row {
+display: flex;
+padding: 12px 16px;
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.tier-row:last-child {
+border-bottom: none;
+}
+
+.tier-header {
+background: rgba(102,126,234,0.2);
+font-weight: 600;
+}
+
+.tier-label, .tier-superior, .tier-subordinate {
+flex: 1;
+text-align: center;
+}
+
+.tier-label {
+font-weight: 600;
+}
+
+.tier-superior, .tier-subordinate {
+color: rgba(255,255,255,0.92);
+font-size: 13px;
+font-weight: 500;
+}
+
+.referral-hint {
+margin: 0 0 12px;
+font-size: 12px;
+line-height: 1.5;
+color: rgba(255,255,255,0.55);
+}
+
+.downline-card {
+background: rgba(255,255,255,0.05);
+border-radius: 10px;
+padding: 12px;
+margin-bottom: 8px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.downline-address {
+font-family: monospace;
+font-size: 13px;
+color: #667eea;
+}
+
+.downline-badge {
+padding: 4px 8px;
+border-radius: 4px;
+font-size: 11px;
+font-weight: 600;
+margin-left: 8px;
+}
+
+.downline-badge.claimable {
+background: rgba(0,210,106,0.2);
+color: #00d26a;
+}
+
+.downline-badge.claimed {
+background: rgba(255,71,87,0.2);
+color: #ff4757;
+}
+
+.downline-badge.inactive {
+background: rgba(100,100,100,0.2);
+color: #888;
+}
+
+.tier-status-block { margin-top: 8px; }
+.tier-status-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px 12px;
+margin-bottom: 8px;
+border-radius: 10px;
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,255,255,0.08);
+font-size: 13px;
+}
+.tier-status-row.claimable { border-color: #00d26a; background: rgba(0,210,106,0.12); }
+.tier-status-row.pending { border-color: #ffc107; background: rgba(255,193,7,0.1); }
+.tier-status-row.claimed { border-color: rgba(255,71,87,0.4); opacity: 0.75; }
+.tier-status-row.inactive { opacity: 0.65; }
+.tier-claim-btn {
+padding: 6px 10px;
+font-size: 12px;
+border-radius: 8px;
+border: none;
+cursor: pointer;
+font-weight: 600;
+min-width: 64px;
+}
+.tier-claim-btn.can-claim { background: linear-gradient(135deg, #00d26a, #00a854); color: #fff; cursor: pointer; }
+.tier-claim-btn.claimed { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; cursor: default; opacity: 0.92; }
+.tier-claim-btn.inactive { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); cursor: not-allowed; }
+.tier-claim-btn.loading-tier { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); cursor: wait; }
+.upline-downline-row {
+background: rgba(255,255,255,0.05);
+border-radius: 10px;
+padding: 12px;
+margin-bottom: 10px;
+}
+.upline-downline-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+.log-item {
+padding: 4px 0;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.log-success { color: #00d26a; }
+.log-error { color: #ff6b6b; }
+.log-info { color: #667eea; }
+
+.lang-selector {
+margin-left: auto;
+display: flex;
+align-items: center;
+}
+
+.lang-selector select {
+background: rgba(255,255,255,0.1);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius: 8px;
+color: #fff;
+padding: 6px 12px;
+font-size: 13px;
+cursor: pointer;
+outline: none;
+}
+
+.lang-selector select:hover {
+background: rgba(255,255,255,0.15);
+border-color: rgba(255,255,255,0.3);
+}
+
+.lang-selector-container {
+display: flex;
+justify-content: center;
+margin-bottom: 16px;
+}
+
+.lang-selector-container select {
+background: rgba(255,255,255,0.1);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius: 8px;
+color: #fff;
+padding: 10px 20px;
+font-size: 14px;
+cursor: pointer;
+outline: none;
+min-width: 120px;
+}
+
+.lang-selector-container select:hover {
+background: rgba(255,255,255,0.15);
+border-color: rgba(255,255,255,0.3);
+}
+
+.lang-selector-container select option {
+background: #1a1f3a;
+color: #fff;
+}
+
+.lang-selector select option {
+background: #1a1f3a;
+color: #fff;
+}
+
+@media (max-width: 600px) {
+.tab-nav {
+flex-wrap: wrap;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="app-topbar">
+<div class="app-brand">
+<span class="app-brand-mark" aria-hidden="true"><img src="icon-192.png" alt="TWD" width="36" height="36"></span>
+<span class="app-brand-text" data-i18n="tokenName">TWD</span>
+</div>
+<button type="button" class="app-menu-btn" onclick="toggleAppMenu(true)" aria-label="Menu">
+<span></span><span></span><span></span>
+</button>
+</header>
+
+<div id="menuOverlay" class="menu-overlay hidden" role="dialog" aria-modal="true" aria-label="Menu" onclick="toggleAppMenu(false)">
+<div class="menu-overlay-panel" onclick="event.stopPropagation()">
+<div class="menu-overlay-head">
+<span class="menu-overlay-title" data-i18n="menuTitle">菜单</span>
+<button type="button" class="menu-close-btn" onclick="toggleAppMenu(false)" aria-label="Close">×</button>
+</div>
+<p class="menu-section-label" data-i18n="languageSection">语言</p>
+<button type="button" class="lang-menu-trigger" id="langMenuTrigger" onclick="toggleLangPanel()">
+<span class="lang-flag" id="langTriggerFlag">🌐</span>
+<span class="lang-short" id="langTriggerShort">TW</span>
+<span style="flex:1;text-align:left;opacity:0.85;font-size:13px;" id="langTriggerLabel">繁體中文</span>
+<span class="lang-chevron" aria-hidden="true">▼</span>
+</button>
+<div class="lang-menu-list" id="langMenuList">
+<button type="button" class="lang-menu-row" data-lang="zh-CN" onclick="setLanguage('zh-CN')"><span>🇨🇳</span><span>简体中文</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">CN</span></button>
+<button type="button" class="lang-menu-row" data-lang="zh-TW" onclick="setLanguage('zh-TW')"><span>🇹🇼</span><span>繁體中文</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">TW</span></button>
+<button type="button" class="lang-menu-row" data-lang="en" onclick="setLanguage('en')"><span>🇬🇧</span><span>English</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">EN</span></button>
+<button type="button" class="lang-menu-row" data-lang="ja" onclick="setLanguage('ja')"><span>🇯🇵</span><span>日本語</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">JP</span></button>
+<button type="button" class="lang-menu-row" data-lang="ko" onclick="setLanguage('ko')"><span>🇰🇷</span><span>한국어</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">KR</span></button>
+<button type="button" class="lang-menu-row" data-lang="vi" onclick="setLanguage('vi')"><span>🇻🇳</span><span>Tiếng Việt</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">VI</span></button>
+<button type="button" class="lang-menu-row" data-lang="th" onclick="setLanguage('th')"><span>🇹🇭</span><span>ไทย</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">TH</span></button>
+</div>
+<p class="menu-hint" data-i18n="menuLangHint">选择语言后界面将立即切换。若 TokenPocket 内无反应，请尝试刷新页面</p>
+</div>
+</div>
+
+<div class="top-banner">
+<img src="150659f2ce7580b3be6b695195574c44_720.jpg" alt="" onerror="this.style.display='none'">
+</div>
+
+<div class="status-bar">
+<div class="status-dot" id="statusDot"></div>
+<span class="status-text" id="statusText" data-i18n="notConnected">未连接</span>
+</div>
+
+<div id="beforeConnect">
+<div class="btn-group">
+<button class="btn btn-primary" onclick="connectWallet()" data-i18n="connectWallet">连接钱包</button>
+</div>
+<div class="wallet-section" id="walletSection"></div>
+
+<div class="hero-title">
+<h1 data-i18n="tokenName">Tiny Winged Dragon</h1>
+<h2 data-i18n="tokenSlogan">生态社区共治</h2>
+</div>
+</div>
+
+<div id="mainContent" class="hidden">
+<div class="tab-nav">
+<button type="button" class="tab-btn active" data-tab="home" onclick="switchTab('home')" data-i18n="tabHome">首页</button>
+<button type="button" class="tab-btn" data-tab="lock" onclick="switchTab('lock')" data-i18n="tabLock">锁仓</button>
+<button type="button" class="tab-btn" data-tab="referral" onclick="switchTab('referral')" data-i18n="tabReferral">推广</button>
+<button type="button" class="tab-btn" data-tab="info" onclick="switchTab('info')" data-i18n="tabInfo">我的</button>
+</div>
+
+<div class="tab-content active" id="tab-home">
+<div class="card">
+<div class="card-title" data-i18n="phaseProgress">阶段进度</div>
+<div class="phase-grid">
+<div class="phase-item" id="phase1">
+<div class="phase-num" data-i18n="phase1">阶段1</div>
+<div class="phase-label" data-i18n="reward1Percent">1% 奖励</div>
+</div>
+<div class="phase-item" id="phase2">
+<div class="phase-num" data-i18n="phase2">阶段2</div>
+<div class="phase-label" data-i18n="reward3Percent">3% 奖励</div>
+</div>
+<div class="phase-item" id="phase3">
+<div class="phase-num" data-i18n="phase3">阶段3</div>
+<div class="phase-label" data-i18n="reward5Percent">5% 奖励</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-title" data-i18n="currentPhaseRewardDesc">当前活跃阶段奖励说明</div>
+<div class="phase-reward-card">
+<div class="tier-table">
+<div class="tier-row tier-header">
+<span class="tier-label" data-i18n="tier">档位</span>
+<span class="tier-superior" data-i18n="superiorThreshold">上级门槛</span>
+<span class="tier-subordinate" data-i18n="subordinateThreshold">下级门槛</span>
+</div>
+<div class="tier-row">
+<span class="tier-label" data-i18n="tierOne">一档</span>
+<span class="tier-superior" id="tierUp0">--</span>
+<span class="tier-subordinate" id="tierDown0">--</span>
+</div>
+<div class="tier-row">
+<span class="tier-label" data-i18n="tierTwo">二档</span>
+<span class="tier-superior" id="tierUp1">--</span>
+<span class="tier-subordinate" id="tierDown1">--</span>
+</div>
+<div class="tier-row">
+<span class="tier-label" data-i18n="tierThree">三档</span>
+<span class="tier-superior" id="tierUp2">--</span>
+<span class="tier-subordinate" id="tierDown2">--</span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="tab-content" id="tab-lock">
+<div class="card">
+<div class="card-title" data-i18n="lockData">锁仓</div>
+<div class="lock-grid">
+<div class="lock-card private">
+<div class="lock-label" data-i18n="privateLockTotal">私募方锁仓总量</div>
+<div class="lock-value" id="privateLockTotal">--</div>
+</div>
+
+<div class="lock-card private">
+<div class="lock-label" data-i18n="privateReleased">私募方释放总量</div>
+<div class="lock-value" id="privateReleased">--</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-title" data-i18n="projectData">项目方数据</div>
+<div class="lock-grid">
+<div class="lock-card project">
+<div class="lock-label" data-i18n="projectLockTotal">项目方锁仓总量</div>
+<div class="lock-value" id="projectLockTotal">--</div>
+</div>
+
+<div class="lock-card project">
+<div class="lock-label" data-i18n="projectReleased">项目方释放总量</div>
+<div class="lock-value" id="projectReleased">--</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="tab-content" id="tab-referral">
+<div class="card">
+<div class="card-title" data-i18n="referralLink">推广链接</div>
+<div class="input-group">
+<div style="display: flex; gap: 8px;">
+<input type="text" class="input-field" id="referralLink" readonly data-i18n-placeholder="referralLinkPlaceholder" placeholder="推广链接">
+<button class="btn btn-primary" onclick="copyReferralLink()" style="width: auto; padding: 12px 16px;" data-i18n="copyLink">复制</button>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" data-i18n="bindReferrerLabel">绑定推荐人（输入推荐人地址）</label>
+<div style="display: flex; gap: 8px;">
+<input type="text" class="input-field" id="referrerInput" data-i18n-placeholder="referrerPlaceholder" placeholder="输入推荐人地址">
+<button class="btn btn-primary" onclick="bindReferrer()" style="width: auto; padding: 12px 16px;" data-i18n="bindReferrer">绑定</button>
+</div>
+</div>
+<div class="error-box" id="referralError"></div>
+</div>
+
+<div class="card">
+<div class="card-title" data-i18n="referralRewardClaim">推广奖励领取</div>
+<p class="referral-hint" data-i18n="referralPerDownlineHint">仅读取直推下级列表（一次读链）。点某一档「领取」时再验证该下级并发起交易，无需全员刷新。</p>
+<p class="referral-hint" id="uplineHoldHint" style="margin-top: 8px; display: none;"></p>
+<button type="button" class="btn btn-primary" style="margin-top: 12px; width: 100%;" onclick="loadUplineDownlineClaimList()" data-i18n="loadDownlineList">加载下级列表</button>
+<div id="uplineDownlineClaimList" style="margin-top: 12px;"></div>
+
+<div id="claimLog" style="margin-top: 16px; display: none;">
+<div class="card-title" style="font-size: 13px;" data-i18n="claimLogTitle">操作日志</div>
+<div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px;" id="logContent"></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="tab-info">
+<div class="card">
+<div class="card-title" data-i18n="myWallet">我的钱包</div>
+<div class="user-grid">
+<div class="user-item">
+<div class="user-label" data-i18n="tokenBalance">代币余额</div>
+<div class="user-value" id="userBalance">--</div>
+</div>
+<div class="user-item">
+<div class="user-label" data-i18n="totalDexBuy">累计DEX买入</div>
+<div class="user-value" id="dexBuy">--</div>
+</div>
+<div class="user-item" style="grid-column: 1 / -1;">
+<div class="user-label" data-i18n="totalRewardClaimedLabel">累计领取总计</div>
+<div class="user-value" id="totalRewardClaimed">--</div>
+</div>
+</div>
+</div>
+
+                <div class="card">
+                    <div class="card-title" data-i18n="holdStatus">持仓状态</div>
+                    <div class="data-row hold-wallet-row">
+                        <span class="hold-wallet-label">
+                            <span class="status-dot" id="holdWalletDot"></span>
+                            <span class="data-label" data-i18n="connectedWallet">钱包地址</span>
+                        </span>
+                        <span class="data-value hold-wallet-value" id="holdWalletAddress">--</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label" data-i18n="referrerStatusLabel">推荐人</span>
+                        <span class="data-value" id="referrerStatus">--</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label" data-i18n="holdStartTime">门槛开始时间</span>
+                        <span class="data-value" id="holdStartTime">--</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label" data-i18n="unlockTime24h">24小时解锁时间</span>
+                        <span class="data-value" id="holdEndTime">--</span>
+                    </div>
+                </div>
+
+                <div class="card" id="downlineTierCard" style="display: none;">
+                    <div class="card-title" data-i18n="myReferralTierTitle">推荐奖励档位（只读）</div>
+                    <p class="referral-hint" data-i18n="myReferralTierHint">达标后请让您的推荐人在「推广」页点击对应档位领取，奖励进入推荐人钱包。</p>
+                    <p class="referral-hint" id="myNetHoldLine" style="margin-top: 8px;"></p>
+                    <p class="referral-hint" id="myUplineHoldLine" style="margin-top: 4px;"></p>
+                    <div class="tier-status-block" id="myTierStatusList"></div>
+                    <p class="referral-hint" id="askReferrerClaimHint" style="margin-top: 10px; display: none;"></p>
+                </div>
+                
+<div class="btn-group">
+<button class="btn btn-primary" onclick="disconnectWallet()" data-i18n="disconnectWallet">断开连接</button>
+</div>
+</div>
+</div>
+</div>
+
+<button type="button" class="refresh-btn" id="refreshBtn" onclick="refreshData()" aria-label="Refresh" style="display:none;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M23 4v6h-6M1 20v-6h6"/>
+<path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+</svg>
+</button>
+
+<div class="toast" id="toast"></div>
+
+<!-- 错误弹窗 -->
+<div id="errorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center;">
+<div style="background: rgba(30,30,50,0.95); border-radius: 16px; padding: 24px; max-width: 320px; width: 90%; text-align: center; border: 1px solid rgba(255,71,87,0.5);">
+<div style="font-size: 48px; margin-bottom: 16px;">❌</div>
+<div id="errorModalTitle" data-i18n="operationError" style="font-size: 16px; font-weight: 600; color: #ff6b6b; margin-bottom: 8px;">操作错误</div>
+<div id="errorModalMessage" style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 20px; word-break: break-all;"></div>
+<button onclick="closeErrorModal()" data-i18n="confirm" style="background: linear-gradient(135deg, #ff4757, #ff6b6b); color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%;">确定</button>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js" integrity="sha384-uDUzAob8VRybYi68YL5W/y5Uel6PtqYSI0YHiTQB400WGPc/TVqL2dHYDkGKdBnw" crossorigin="anonymous"></script>
+<script>
+/**
+ * MAIN_CONTRACT：主代币（UUPS 代理）部署后必填，见 bsc-mainnet-deployment.json → contracts.mainToken.address。
+ * LOCK_CONTRACT：锁仓默认读链上 lockContract()；链上未配置时可临时填锁仓合约地址作回退，一般保持 0。
+ * REFERRAL_BASE：推广站根 URL（以 / 结尾）；留空则用当前站点目录自动生成 referral/?ref=。
+ *
+ * —— 链上 Swap / 防夹（无需写进 CONFIG，部署即生效；Owner 在 BscScan 可调）——
+ * • 卖税 sellFeePercent：默认 3%（与下面滑点无关）。
+ * • 税币累积 ≥ minSwapAmount：默认 0.5 枚触发 Pancake 换 BNB，并 75%/25% 分发。
+ * • swap 滑点 slippageBps：默认 300（3%），解锁 8 亿销毁后可 setSlippageBps(250~400)，即 2.5%~4%。
+ * • Chainlink：部署脚本会 setPriceFeeds(BNB/USD, TOKEN/USD)；TOKEN/USD 未上链前仅池价+滑点。
+ *   BSC 主网 BNB/USD：0x0567f2323251F2afE41C8304938f92176aF99CAc
+ *   有 TWD/USD 喂价后 Owner 再 setPriceFeeds(bnbFeed, tokenUsdFeed)。
+ * • 实现合约依赖库 SwapPricingLib，地址见 deployment.json → swapPricingLib（升级须复用同一库）。
+ * • 锁仓 autoReleaseAll：全网约 12 小时仅可触发一次；读 autoReleaseCooldownRemaining() 显示倒计时。
+ */
+const CONFIG = {
+BSC_RPC: "https://bsc.publicnode.com",
+CHAIN_ID: 56,
+/** 正式主网 UUPS 代理 — 6月1日部署后填写（见 bsc-mainnet-deployment.json） */
+MAIN_CONTRACT: "0x98e35d7c8d51C28FBDd36c91E1DFD634eaC545ED",
+/** 正式主网锁仓 — 部署 lock 后填写；链上 setLockContract 后可读 lockContract() */
+LOCK_CONTRACT: "0x0000000000000000000000000000000000000000",
+/** 读链失败时的展示回退；initializeLock 后按实际锁仓量更新 */
+LOCK_STATS_FALLBACK: {
+privateLockTotal: "0",
+privateReleased: "0",
+projectLockTotal: "0",
+projectReleased: "0"
+},
+TOKEN_DECIMALS: 18,
+REFERRAL_BASE: "",
+/** 仅文档/运营对照（链上为准）：BSC Chainlink BNB/USD */
+CHAINLINK_BNB_USD: "0x0567f2323251F2afE41C8304938f92176aF99CAc",
+/** 有官方 TWD/USD 喂价后填入，并调用 setPriceFeeds(bnb, 此地址) */
+CHAINLINK_TOKEN_USD: "",
+/** 正式主网部署区块：ReferralBound 日志扫描起点（部署后填 BscScan 区块号，勿填 0） */
+MAIN_DEPLOY_BLOCK: 0
+};
+
+/** BSC 主网读链备用 RPC */
+const RPC_FALLBACKS = [
+  "https://bsc-dataseed.binance.org/",
+  "https://bsc-dataseed1.binance.org/",
+  "https://bsc-dataseed2.binance.org/",
+  "https://bsc.publicnode.com"
+];
+
+/** 读链 / 刷新限流（防 RPC 滥用与页面卡顿） */
+const SECURITY = {
+  REFRESH_DEBOUNCE_MS: 2500,
+  REFRESH_MAX_PER_WINDOW: 5,
+  REFRESH_WINDOW_MS: 30000,
+  DOWNLINE_INITIAL_SHOW: 15,
+  DOWNLINE_LOAD_MORE_STEP: 15,
+  DOWNLINE_TIER_BATCH_SIZE: 3,
+  DOWNLINE_TIER_BATCH_DELAY_MS: 450,
+  RPC_MIN_INTERVAL_MS: 100,
+  LOAD_DOWNLINE_COOLDOWN_MS: 6000,
+  /** 全站（本浏览器）同时只允许 1 次刷新在进行；锁最长持有时间（防崩溃残留） */
+  GLOBAL_REFRESH_LOCK_MS: 120000
+};
+
+const REFRESH_LOCK_STORAGE_KEY = 'xyl_global_refresh_lock';
+const REFRESH_TAB_ID = 'tab_' + Math.random().toString(36).slice(2, 11);
+
+const I18N = {
+'zh-TW': { 
+pageTitle: '小翼龍 Token', 
+tokenName: '小翼龍', 
+tokenSlogan: '生態社區共治', 
+notConnected: '未連接', 
+selectLanguage: '選擇語言', 
+menuTitle: '選單', 
+languageSection: '語言', 
+menuLangHint: '選擇語言後介面將立即切換。若 TokenPocket 內無反應，請嘗試重新整理頁面。', 
+connectWallet: '連接錢包', 
+disconnectWallet: '斷開連接', 
+tabHome: '首頁', 
+tabLock: '鎖倉', 
+tabReferral: '推廣', 
+tabInfo: '我的', 
+phaseProgress: '階段進度', 
+phase1: '階段1', 
+phase2: '階段2', 
+phase3: '階段3', 
+reward1Percent: '1% 獎勵', 
+reward3Percent: '3% 獎勵', 
+reward5Percent: '5% 獎勵', 
+currentPhaseRewardDesc: '當前活躍階段獎勵說明', 
+tier: '檔位', 
+superiorThreshold: '上級門檻', 
+subordinateThreshold: '下級門檻', 
+tierOne: '一檔', 
+tierTwo: '二檔', 
+tierThree: '三檔', 
+threshold300M: '300萬', 
+threshold150M: '150萬', 
+threshold80M: '80萬', 
+threshold80M2: '80萬', 
+threshold50M: '50萬', 
+threshold10M: '10萬',    
+lockData: '鎖倉', 
+privateLockTotal: '私募方鎖倉總量', 
+privateReleased: '私募方釋放總量', 
+projectData: '項目方數據', 
+projectLockTotal: '項目方鎖倉總量', 
+projectReleased: '項目方釋放總量', 
+
+lockAutoRelease: '一鍵釋放（到期部分）',
+lockAutoReleaseHint: '將已到期的私募+項目方代幣釋放到固定收款地址；全網約 12 小時僅可觸發一次（防刷 gas）。',
+lockAutoReleaseBtn: '觸發 autoReleaseAll',
+lockCooldownFmt: '冷卻中，約 {h} 小時 {m} 分後可再觸發',
+lockCooldownReady: '當前可觸發一鍵釋放',
+lockAutoReleaseOk: '一鍵釋放已提交',
+errAutoReleaseCooldown: 'autoReleaseAll 冷卻中（12 小時內僅可觸發一次）',
+referralLink: '推廣鏈接', 
+copyLink: '複製', 
+bindReferrer: '綁定', 
+bindReferrerLabel: '綁定推薦人（輸入推薦人地址）', 
+referralLinkPlaceholder: '推廣鏈接', 
+referrerPlaceholder: '輸入推薦人地址', 
+referralRewardClaim: '推廣獎勵領取',   
+noDownline: '暫無下級', 
+notQualified: '未達標', 
+claimable: '可領取', 
+claimedAll: '已領完', 
+myWallet: '我的錢包', 
+tokenBalance: '代幣餘額', 
+totalDexBuy: '累計DEX買入', 
+holdStatus: '持倉狀態', 
+currentHoldThreshold: '當前持倉門檻', 
+holdStartTime: '門檻開始時間', 
+unlockTime24h: '24小時解鎖時間', 
+userPhase: '用戶階段',    
+confirm: '確定', 
+installWallet: '請安裝 MetaMask、TokenPocket 或其他 Web3 錢包', 
+switchToBSC: '請手動切換到 BSC 主網', 
+autoBindReferrer: '正在自動綁定推薦人...', 
+bindSuccess: '推薦人綁定成功！', 
+connectFirst: '請先連接錢包', 
+copySuccess: '複製成功！', 
+bindSuccessToast: '綁定成功！',   
+noDownlineToClaim: '沒有下級可領取', 
+refreshFailed: '刷新失敗，請檢查網路後重試',
+refreshTooFast: '請勿頻繁刷新，{sec} 秒後再試',
+refreshLimitReached: '刷新次數過多，請 {sec} 秒後再試',
+refreshInProgress: '正在刷新中，請稍候…',
+refreshInProgressGlobal: '其他分頁正在刷新，請稍後再試',
+loadDownlineTooFast: '請勿頻繁載入下級列表，{sec} 秒後再試',
+loadMoreDownlines: '載入更多下級（還剩 {n} 人）',
+downlineListTruncated: '已顯示 {shown} / {total} 人',
+downlineListTitle: '直推下級',
+statusClaimable: '可領取',
+statusClaimed: '已領取',
+statusNeedUpline: '上級未達檔（需 {need}，您當前 {hold}）',
+statusNeedDownline: '下級未達檔',
+statusPendingLock: '下級持倉鎖定未滿24小時',
+statusPendingTimer: '下級尚未形成檔位計時',
+statusNoDex: '下級尚無合格DEX買入',
+statusNoDownline: '暫無直推下級，請先分享推廣鏈接',
+uplineHoldLine: '您當前階段淨持倉：{hold}（領獎須同時滿足上級+下級門檻）',
+totalRewardClaimedLabel: '累計領取總計',
+referralPerDownlineHint: '僅讀取直推下級列表（一次讀鏈）。點某一檔「領取」時再驗證該下級並發起交易，無需全員刷新。',
+loadDownlineList: '載入下級列表',
+loadDownlineListBusy: '正在載入下級列表...',
+claimTierBtn: '領{tier}檔',
+claimTierBtnClaimed: '已領{tier}檔',
+myReferralTierTitle: '推薦獎勵檔位（只讀）',
+myReferralTierHint: '達標後請讓您的推薦人在「推廣」頁點擊對應檔位領取，獎勵進入推薦人錢包。',
+myNetHoldLine: '我的階段淨持倉：{hold}',
+myUplineHoldLine: '推薦人階段淨持倉：{hold}',
+askReferrerClaim: '第{tier}檔已達標，請讓推薦人 {addr} 在「推廣」頁領取',
+tierStatusInactive: '未達標',
+tierStatusPending: '待24小時',
+tierStatusReady: '可領（請推薦人領取）',
+tierStatusClaimed: '已領取',
+claimTierVerifying: '正在驗證並領取...',
+tierPanelLoading: '正在讀取檔位狀態...',
+tierPanelUplineOnly: '此卡片僅顯示給已綁定推薦人的帳號；作為推薦人請在「推廣」頁領取獎勵。',
+claimRescanning: '領取前正在更新可領數據...',
+startClaiming: '開始一鍵領取獎勵...', 
+userCancelled: '用戶取消簽名，領取終止',  
+downline: '下級', 
+tierClaim: '檔', 
+claimSuccess: '領取成功', 
+claimFailed: '失敗', 
+operationError: '操作錯誤', 
+chainOnPhase: '鏈上當前階段', 
+phaseEndedBadge: '（銷毀已達標，待治理進入下階段）', 
+referrerStatusLabel: '推薦人',
+connectedWallet: '錢包地址', 
+holdQualifiedLabel: '持倉達標', 
+referrerBound: '已綁定', 
+referrerNotBound: '未綁定', 
+holdYes: '✅ 滿足', 
+holdNo: '❌ 未滿足', 
+userPhaseNewLabel: '新用戶', 
+claimLogTitle: '操作日誌',  
+logTryClaimFmt: '嘗試領取 {addr} 第{tier}檔', 
+logTierOkFmt: '✓ 第{tier}檔 領取成功', 
+logTierFailFmt: '✗ 第{tier}檔 失敗: {msg}', 
+logDoneFmt: '完成！成功: {ok}, 失敗: {fail}', 
+logPhaseLineFmt: '當前階段: {phase}，待領取: {count} 筆', 
+userRejectConnect: '用戶取消連接', 
+walletDenied: '未授權錢包', 
+invalidAddress: '請輸入有效的錢包地址', 
+userPhaseFmt: '階段{phase}',    
+err24hHold: '24小時持倉未滿足', 
+errTierTimer: '檔位持倉計時未開始', 
+errTierClaimed: '該檔位已領取', 
+errDownHold: '下級持倉不足', 
+errUpHold: '上級持倉不足', 
+errHoldQualified: '持倉不達標', 
+errAlreadyBound: '已綁定過推薦人', 
+errInvalidReferrer: '無效推薦人', 
+errSelfRef: '不能綁定自己為推薦人', 
+errNoBuy: '下級未在 DEX 買入', 
+errTooSoon: '操作過於頻繁', 
+errInvalidTier: '無效檔位', 
+errNotReferrer: '不是該下級的推薦人', 
+errOldUserClear: '老用戶需先清倉', 
+errAlreadyClaimed: '已領取過', 
+errNotQualified: '不符合條件', 
+errInsufficientBalance: '餘額不足', 
+errTransferFailed: '轉帳失敗', 
+errUnauthorized: '未授權', 
+errAlreadySigned: '已簽名', 
+errNotEnoughSigs: '簽名數量不足', 
+errInvalidAddress: '無效地址', 
+errUserRejected: '用戶取消簽名', 
+errRevertFmt: '合約退回: {reason}', 
+errUnknownFmt: '{detail}', 
+logErrorFmt: '錯誤: {msg}', 
+wrongNetworkStrict: '網路不正確：請在錢包中切換到 BSC 主網後再連接', 
+contractNotConfigured: '主合約地址尚未設定，無法讀取鏈上數據（部署後請填 CONFIG.MAIN_CONTRACT）', 
+zeroAddressNotAllowed: '不能使用零地址', 
+cannotBindSelf: '不能綁定自己為推薦人', 
+txPending: '交易已提交，等待鏈上確認…', 
+walletConfirmClaim: '請在 TokenPocket 中確認簽名',
+claimOpeningWallet: '正在喚起錢包，請稍候…',
+logTxSubmittedFmt: '交易已廣播 {hash}',
+errSendTimeout: '發送超時：請查看錢包是否有待確認交易，或刷新頁面後重試',
+duplicateActionWait: '請等待上一筆交易完成後再試',
+refLinkPrefilled: '已從推廣連結填入推薦人地址，請點「綁定」並在錢包中確認',
+bindingInProgress: '正在綁定中，請在錢包中確認，勿重複點擊',
+bindSkipReadHint: '預讀鏈上數據失敗，將直接發起綁定，請在錢包確認（不合約會由鏈上退回）', 
+errUplineNoDex: '該推薦人尚無合格 DEX 買入記錄，無法作為推薦人', 
+errUplineCooldownFmt: '推薦人仍處於綁定冷卻，請在區塊高度大於 {block} 後再試', 
+chainReadFailed: '鏈上讀取失敗，請檢查網絡、合約地址或瀏覽器安全策略' 
+},
+en: {
+pageTitle: 'Tiny Winged Dragon',
+tokenName: 'TWD',
+tokenSlogan: 'Ecological Community Governance',
+notConnected: 'Not Connected',
+selectLanguage: 'Language',
+menuTitle: 'Menu',
+languageSection: 'Language',
+menuLangHint: 'The interface updates immediately. If nothing changes in TokenPocket, try refreshing the page.',
+connectWallet: 'Connect Wallet',
+disconnectWallet: 'Disconnect',
+tabHome: 'Home',
+tabLock: 'Lock',
+tabReferral: 'Referral',
+tabInfo: 'My',
+phaseProgress: 'Phase Progress',
+phase1: 'Phase 1',
+phase2: 'Phase 2',
+phase3: 'Phase 3',
+reward1Percent: '1% Reward',
+reward3Percent: '3% Reward',
+reward5Percent: '5% Reward',
+currentPhaseRewardDesc: 'Current Phase Reward Description',
+tier: 'Tier',
+superiorThreshold: 'Superior Threshold',
+subordinateThreshold: 'Subordinate Threshold',
+tierOne: 'Tier 1',
+tierTwo: 'Tier 2',
+tierThree: 'Tier 3',
+threshold300M: '3M',
+threshold150M: '1.5M',
+threshold80M: '800K',
+threshold80M2: '800K',
+threshold50M: '500K',
+threshold10M: '100K',
+lockData: 'Lock',
+privateLockTotal: 'Private Lock Total',
+privateReleased: 'Private Released Total',
+projectData: 'Project Data',
+projectLockTotal: 'Project Lock Total',
+projectReleased: 'Project Released Total',
+referralLink: 'Referral Link',
+copyLink: 'Copy',
+bindReferrer: 'Bind',
+bindReferrerLabel: 'Bind Referrer (Enter referrer address)',
+referralLinkPlaceholder: 'Referral Link',
+referrerPlaceholder: 'Enter Referrer Address',
+referralRewardClaim: 'Referral Reward Claim',
+noDownline: 'No Downline',
+notQualified: 'Not Qualified',
+claimable: 'Claimable',
+claimedAll: 'Claimed',
+myWallet: 'My Wallet',
+tokenBalance: 'Token Balance',
+totalDexBuy: 'Total DEX Buy',
+holdStatus: 'Hold Status',
+currentHoldThreshold: 'Current Hold Threshold',
+holdStartTime: 'Hold Start Time',
+unlockTime24h: '24h Unlock Time',
+userPhase: 'User Phase',
+confirm: 'Confirm',
+installWallet: 'Please install MetaMask, TokenPocket or other Web3 wallet',
+switchToBSC: 'Please switch to BSC Mainnet manually',
+autoBindReferrer: 'Auto binding referrer...',
+bindSuccess: 'Referrer bound successfully!',
+connectFirst: 'Please connect wallet first',
+copySuccess: 'Copy success!',
+bindSuccessToast: 'Bind success!',
+noDownlineToClaim: 'No downline to claim',
+totalRewardClaimedLabel: 'Total claimed',
+referralPerDownlineHint: 'Loads your direct downline list in one on-chain read. Tap a tier button to verify that downline and claim — no full-team scan.',
+loadDownlineList: 'Load downline list',
+loadDownlineListBusy: 'Loading downline list...',
+refreshTooFast: 'Please wait {sec}s before refreshing again.',
+refreshLimitReached: 'Too many refreshes. Try again in {sec}s.',
+refreshInProgress: 'Refresh in progress, please wait…',
+refreshInProgressGlobal: 'Another tab is refreshing. Please try again later.',
+loadDownlineTooFast: 'Please wait {sec}s before loading the downline list again.',
+loadMoreDownlines: 'Load more downlines ({n} remaining)',
+downlineListTruncated: 'Showing {shown} of {total}',
+claimTierBtn: 'Tier {tier}',
+claimTierBtnClaimed: 'Tier {tier} ✓',
+myReferralTierTitle: 'Referral tiers (read-only)',
+myReferralTierHint: 'When qualified, ask your referrer to claim the matching tier on the Referral tab. Rewards go to the referrer wallet.',
+myNetHoldLine: 'My phase net hold: {hold}',
+myUplineHoldLine: 'Referrer phase net hold: {hold}',
+askReferrerClaim: 'Tier {tier} is ready. Ask referrer {addr} to claim on the Referral tab.',
+tierStatusInactive: 'Not qualified',
+tierStatusPending: 'Pending 24h',
+tierStatusReady: 'Ready (referrer must claim)',
+tierStatusClaimed: 'Claimed',
+claimTierVerifying: 'Verifying and claiming...',
+tierPanelLoading: 'Loading tier status...',
+tierPanelUplineOnly: 'This panel is for accounts with a referrer. As a referrer, claim rewards on the Referral tab.',
+startClaiming: 'Starting one-click claim...',
+userCancelled: 'User cancelled signature, claim stopped',
+downline: 'downline',
+tierClaim: 'tier',
+claimSuccess: 'Claim success',
+claimFailed: 'Failed',
+operationError: 'Operation Error',
+chainOnPhase: 'On-chain phase',
+phaseEndedBadge: '(burn target met, pending next phase)',
+referrerStatusLabel: 'Referrer',
+connectedWallet: 'Wallet address',
+holdQualifiedLabel: 'Hold qualified',
+referrerBound: 'Bound',
+referrerNotBound: 'Not bound',
+holdYes: '✅ Yes',
+holdNo: '❌ No',
+userPhaseNewLabel: 'New user',
+claimLogTitle: 'Activity log',
+logTryClaimFmt: 'Claiming {addr} tier {tier}',
+logTierOkFmt: '✓ Tier {tier} success',
+logTierFailFmt: '✗ Tier {tier} failed: {msg}',
+logDoneFmt: 'Done. OK: {ok}, failed: {fail}',
+logPhaseLineFmt: 'Phase: {phase}, pending claims: {count}',
+userRejectConnect: 'User rejected connection',
+walletDenied: 'Wallet not authorized',
+invalidAddress: 'Enter a valid wallet address',
+userPhaseFmt: 'Phase {phase}',
+err24hHold: '24h hold requirement not met',
+errTierTimer: 'Tier hold timer not started',
+errTierClaimed: 'This tier reward already claimed',
+errDownHold: 'Downline hold insufficient',
+errUpHold: 'Upline hold insufficient',
+errHoldQualified: 'Hold not qualified',
+errAlreadyBound: 'Referrer already bound',
+errInvalidReferrer: 'Invalid referrer',
+errSelfRef: 'Cannot bind self as referrer',
+errNoBuy: 'Downline has no qualifying DEX buy',
+errTooSoon: 'Action too soon',
+errInvalidTier: 'Invalid tier',
+errNotReferrer: 'Not the downline referrer',
+errOldUserClear: 'Legacy users must clear positions first',
+errAlreadyClaimed: 'Already claimed',
+errNotQualified: 'Not qualified',
+errInsufficientBalance: 'Insufficient balance',
+errTransferFailed: 'Transfer failed',
+errUnauthorized: 'Unauthorized',
+errAlreadySigned: 'Already signed',
+errNotEnoughSigs: 'Not enough signatures',
+errInvalidAddress: 'Invalid address',
+errUserRejected: 'User rejected signature',
+errRevertFmt: 'Reverted: {reason}',
+errUnknownFmt: '{detail}',
+logErrorFmt: 'Error: {msg}',
+wrongNetworkStrict: 'Wrong network: switch to BSC in your wallet, then reconnect.',
+contractNotConfigured: 'Main contract address is not set; on-chain data unavailable (set CONFIG.MAIN_CONTRACT after deploy).',
+zeroAddressNotAllowed: 'Zero address is not allowed.',
+cannotBindSelf: 'You cannot bind yourself as referrer.',
+txPending: 'Transaction submitted, waiting for confirmation…',
+walletConfirmClaim: 'Please confirm the signature in your wallet',
+claimOpeningWallet: 'Opening wallet, please wait…',
+logTxSubmittedFmt: 'Transaction broadcast {hash}',
+errSendTimeout: 'Send timed out. Check your wallet for a pending transaction, or refresh and retry.',
+duplicateActionWait: 'Please wait for the previous transaction to finish.',
+refLinkPrefilled: 'Referrer address filled from your link. Tap Bind and confirm in wallet.',
+bindingInProgress: 'Binding in progress. Confirm in wallet; do not tap again.',
+bindSkipReadHint: 'Could not pre-read chain data. Submitting bind — confirm in wallet.',
+errUplineNoDex: 'This address has no qualifying DEX buy and cannot be a referrer.',
+errUplineCooldownFmt: 'This referrer is in bind cooldown. Try again after block height exceeds {block}.',
+chainReadFailed: 'On-chain read failed. Check network, contract address, or browser/CSP (localhost must be allowed in connect-src).'
+},
+ja: {
+pageTitle: 'TWD Token',
+selectLanguage: '言語',
+menuTitle: 'メニュー',
+languageSection: '言語',
+menuLangHint: '言語を選ぶとすぐに反映されます。TokenPocket で変化がない場合はページを再読み込みしてください。',
+connectWallet: 'ウォレット接続',
+disconnectWallet: '切断',
+tabHome: 'ホーム',
+tabLock: 'ロック',
+tabReferral: '紹介',
+tabInfo: 'マイ',
+phaseProgress: '段階進捗',
+phase1: '段階1',
+phase2: '段階2',
+phase3: '段階3',
+reward1Percent: '1% 報酬',
+reward3Percent: '3% 報酬',
+reward5Percent: '5% 報酬',
+currentPhaseRewardDesc: '現在のア актив段階報酬説明',
+tier: 'グレード',
+superiorThreshold: '上位者门槛',
+subordinateThreshold: '下位者门槛',
+tierOne: 'グレード1',
+tierTwo: 'グレード2',
+tierThree: 'グレード3',
+threshold300M: '300万',
+threshold150M: '150万',
+threshold80M: '80万',
+threshold50M: '50万',
+threshold10M: '10万',
+lockData: 'ロック',
+projectData: 'プロジェクトデータ',
+referralLink: '紹介リンク',
+copyLink: 'コピー',
+bindReferrer: 'バインド',
+referralLinkPlaceholder: '紹介リンク',
+referrerPlaceholder: '紹介者アドレスを入力',
+referralRewardClaim: '紹介報酬請求',
+noDownline: '下位者なし',
+notQualified: '未達',
+claimable: '請求可能',
+claimedAll: '請求済',
+myWallet: 'マイウォレット',
+tokenBalance: 'トークン残高',
+totalDexBuy: 'DEX購入合計',
+holdStatus: '保有状態',
+currentHoldThreshold: '現在保有门槛',
+holdStartTime: '保有開始時間',
+unlockTime24h: '24時間解除時間',
+userPhase: 'ユーザー段階',
+confirm: '確認',
+installWallet: 'MetaMask、TokenPocketなどのWeb3ウォレットをインストールしてください',
+switchToBSC: 'BSCメインネットに手動で切り替えてください',
+autoBindReferrer: '紹介者を自動バインド中...',
+bindSuccess: '紹介者バインド成功！',
+connectFirst: '先にウォレットを接続してください',
+copySuccess: 'コピー成功！',
+bindSuccessToast: 'バインド成功！',
+noDownlineToClaim: '請求可能な下位者がいません',
+startClaiming: '一括請求を開始...',
+userCancelled: 'ユーザーがサインをキャンセル、請求中止',
+downline: '下位者',
+tierClaim: 'グレード',
+claimSuccess: '請求成功',
+claimFailed: '失敗',
+operationError: '操作エラー',
+chainOnPhase: 'オンチェーン段階',
+phaseEndedBadge: '（焼却目標達成、次段階待ち）',
+referrerStatusLabel: '紹介者',
+connectedWallet: 'ウォレットアドレス',
+holdQualifiedLabel: '保有条件',
+referrerBound: '紐付け済',
+referrerNotBound: '未紐付け',
+holdYes: '✅ 達成',
+holdNo: '❌ 未達',
+userPhaseNewLabel: '新規ユーザー',
+claimLogTitle: 'ログ',
+logTryClaimFmt: '{addr} ティア{tier} を請求',
+logTierOkFmt: '✓ ティア{tier} 成功',
+logTierFailFmt: '✗ ティア{tier} 失敗: {msg}',
+logDoneFmt: '完了 成功:{ok} 失敗:{fail}',
+logPhaseLineFmt: '段階:{phase} 下位:{count}',
+userRejectConnect: '接続がキャンセルされました',
+walletDenied: 'ウォレット未承認',
+invalidAddress: '有効なアドレスを入力してください',
+userPhaseFmt: '段階{phase}',
+err24hHold: '24時間保有条件を満たしていません',
+errTierTimer: 'ティア保有タイマー未開始',
+errTierClaimed: 'このティアは既に請求済み',
+errDownHold: '下位の保有量が不足',
+errUpHold: '上位の保有量が不足',
+errHoldQualified: '保有が不十分',
+errAlreadyBound: '紹介者は既に登録済み',
+errInvalidReferrer: '無効な紹介者',
+errSelfRef: '自分を紹介者にできません',
+errNoBuy: '下位に条件を満たすDEX買いがありません',
+errTooSoon: '操作が早すぎます',
+errInvalidTier: '無効なティア',
+errNotReferrer: 'この下位の紹介者ではありません',
+errOldUserClear: 'レガシーユーザーは先にポジション整理が必要',
+errAlreadyClaimed: '既に請求済み',
+errNotQualified: '条件未達',
+errInsufficientBalance: '残高不足',
+errTransferFailed: '転送失敗',
+errUnauthorized: '未承認',
+errAlreadySigned: '署名済み',
+errNotEnoughSigs: '署名数不足',
+errInvalidAddress: '無効なアドレス',
+errUserRejected: '署名が拒否されました',
+errRevertFmt: 'リバート: {reason}',
+errUnknownFmt: '{detail}',
+logErrorFmt: 'エラー: {msg}',
+wrongNetworkStrict: 'ネットワークが正しくありません。ウォレットでBSCに切り替えてから再接続してください。',
+contractNotConfigured: 'メインコントラクトアドレスが未設定のため、オンチェーンデータを取得できません（デプロイ後にCONFIG.MAIN_CONTRACTを設定）。',
+zeroAddressNotAllowed: 'ゼロアドレスは使用できません。',
+cannotBindSelf: '自分自身を紹介者にすることはできません。',
+txPending: 'トランザクションを送信しました。確認を待っています…',
+duplicateActionWait: '前のトランザクションが完了するまでお待ちください。',
+errUplineNoDex: 'この紹介者には条件を満たすDEX買いがなく、紹介者にできません。',
+errUplineCooldownFmt: '紹介者はバインド冷却中です。ブロック高が {block} を超えてから再試行してください。',
+chainReadFailed: 'オンチェーンの読み取りに失敗しました。ネットワーク・コントラクト・CSPを確認してください。'
+},
+ko: {
+pageTitle: 'TWD Token',
+selectLanguage: '언어',
+menuTitle: '메뉴',
+languageSection: '언어',
+menuLangHint: '언어를 선택하면 즉시 적용됩니다. TokenPocket에서 반응이 없으면 새로고침하세요.',
+connectWallet: '지갑 연결',
+disconnectWallet: '연결 해제',
+tabHome: '홈',
+tabLock: '잠금',
+tabReferral: '추천',
+tabInfo: '내 정보',
+phaseProgress: '단계 진행',
+phase1: '단계 1',
+phase2: '단계 2',
+phase3: '단계 3',
+reward1Percent: '1% 보상',
+reward3Percent: '3% 보상',
+reward5Percent: '5% 보상',
+currentPhaseRewardDesc: '현재 단계 보상 설명',
+tier: '등급',
+superiorThreshold: '상위门槛',
+subordinateThreshold: '하위门槛',
+tierOne: '등급 1',
+tierTwo: '등급 2',
+tierThree: '등급 3',
+threshold300M: '300만',
+threshold150M: '150만',
+threshold80M: '80만',
+threshold50M: '50만',
+threshold10M: '10만',
+lockData: '잠금',
+projectData: '프로젝트 데이터',
+referralLink: '추천 링크',
+copyLink: '복사',
+bindReferrer: '바인드',
+referralLinkPlaceholder: '추천 링크',
+referrerPlaceholder: '추천인 주소 입력',
+referralRewardClaim: '추천 보상 청구',
+noDownline: '하위 사용자 없음',
+notQualified: '미달',
+claimable: '청구 가능',
+claimedAll: '청구 완료',
+myWallet: '내 지갑',
+tokenBalance: '토큰 잔액',
+totalDexBuy: '총 DEX 구매',
+holdStatus: '보유 상태',
+currentHoldThreshold: '현재 보유门槛',
+holdStartTime: '보유 시작 시간',
+unlockTime24h: '24시간 잠금 해제 시간',
+userPhase: '사용자 단계',
+confirm: '확인',
+installWallet: 'MetaMask, TokenPocket 또는 다른 Web3 지갑을 설치해 주세요',
+switchToBSC: 'BSC 메인넷으로 수동 전환해 주세요',
+autoBindReferrer: '추천인 자동 바인드 중...',
+bindSuccess: '추천인 바인딩 성공!',
+connectFirst: '먼저 지갑을 연결해 주세요',
+copySuccess: '복사 성공!',
+bindSuccessToast: '바인딩 성공!',
+noDownlineToClaim: '청구할 하위 사용자가 없습니다',
+startClaiming: '원클릭 청구 시작...',
+userCancelled: '사용자가 서명을 취소하여 청구 중지',
+downline: '하위',
+tierClaim: '등급',
+claimSuccess: '청구 성공',
+claimFailed: '실패',
+operationError: '작업 오류',
+chainOnPhase: '온체인 단계',
+phaseEndedBadge: '(소각 목표 달성, 다음 단계 대기)',
+referrerStatusLabel: '추천인',
+connectedWallet: '지갑 주소',
+holdQualifiedLabel: '보유 자격',
+referrerBound: '연결됨',
+referrerNotBound: '미연결',
+holdYes: '✅ 충족',
+holdNo: '❌ 미충족',
+userPhaseNewLabel: '신규',
+claimLogTitle: '로그',
+logTryClaimFmt: '{addr} {tier}단 청구',
+logTierOkFmt: '✓ {tier}단 성공',
+logTierFailFmt: '✗ {tier}단 실패: {msg}',
+logDoneFmt: '완료 성공:{ok} 실패:{fail}',
+logPhaseLineFmt: '단계:{phase} 하위:{count}',
+userRejectConnect: '연결 거부',
+walletDenied: '지갑 미승인',
+invalidAddress: '유효한 주소를 입력하세요',
+userPhaseFmt: '단계 {phase}',
+err24hHold: '24시간 보유 조건 미충족',
+errTierTimer: '티어 보유 타이머 미시작',
+errTierClaimed: '해당 티어 이미 청구됨',
+errDownHold: '하위 보유량 부족',
+errUpHold: '상위 보유량 부족',
+errHoldQualified: '보유 자격 미달',
+errAlreadyBound: '이미 추천인 연결됨',
+errInvalidReferrer: '유효하지 않은 추천인',
+errSelfRef: '본인을 추천인으로 지정할 수 없음',
+errNoBuy: '하위에 조건 충족 DEX 매수 없음',
+errTooSoon: '너무 빠른 재시도',
+errInvalidTier: '유효하지 않은 티어',
+errNotReferrer: '해당 하위의 추천인이 아님',
+errOldUserClear: '기존 사용자는 먼저 정리 필요',
+errAlreadyClaimed: '이미 청구함',
+errNotQualified: '조건 미충족',
+errInsufficientBalance: '잔액 부족',
+errTransferFailed: '전송 실패',
+errUnauthorized: '미승인',
+errAlreadySigned: '이미 서명',
+errNotEnoughSigs: '서명 수 부족',
+errInvalidAddress: '유효하지 않은 주소',
+errUserRejected: '사용자가 서명 거부',
+errRevertFmt: '되돌림: {reason}',
+errUnknownFmt: '{detail}',
+logErrorFmt: '오류: {msg}',
+wrongNetworkStrict: '네트워크가 올바르지 않습니다. 지갑에서 BSC로 전환한 뒤 다시 연결하세요.',
+contractNotConfigured: '메인 컨트랙트 주소가 설정되지 않아 온체인 데이터를 불러올 수 없습니다(배포 후 CONFIG.MAIN_CONTRACT 설정).',
+zeroAddressNotAllowed: '영(0) 주소는 사용할 수 없습니다.',
+cannotBindSelf: '자기 자신을 추천인으로 설정할 수 없습니다.',
+txPending: '트랜잭션이 전송되었습니다. 확인을 기다리는 중…',
+duplicateActionWait: '이전 트랜잭션이 완료될 때까지 기다려 주세요.',
+errUplineNoDex: '해당 추천인에게는 유효한 DEX 매수 기록이 없어 추천인이 될 수 없습니다.',
+errUplineCooldownFmt: '추천인이 바인딩 쿨다운 중입니다. 블록 높이가 {block} 을 넘긴 후 다시 시도하세요.',
+chainReadFailed: '온체인 읽기 실패. 네트워크·컨트랙트·브라우저 CSP를 확인하세요.'
+},
+vi: {
+pageTitle: 'Tiny Winged Dragon',
+selectLanguage: 'Ngôn ngữ',
+menuTitle: 'Menu',
+languageSection: 'Ngôn ngữ',
+menuLangHint: 'Giao diện cập nhật ngay. Nếu TokenPocket không đổi, hãy tải lại trang.',
+connectWallet: 'Kết nối Ví',
+disconnectWallet: 'Ngắt kết nối',
+tabHome: 'Trang chủ',
+tabLock: 'Khóa',
+tabReferral: 'Giới thiệu',
+tabInfo: 'Của tôi',
+phaseProgress: 'Tiến độ Giai đoạn',
+phase1: 'Giai đoạn 1',
+phase2: 'Giai đoạn 2',
+phase3: 'Giai đoạn 3',
+reward1Percent: '1% Phần thưởng',
+reward3Percent: '3% Phần thưởng',
+reward5Percent: '5% Phần thưởng',
+currentPhaseRewardDesc: 'Mô tả Phần thưởng Giai đoạn Hiện tại',
+tier: 'Cấp bậc',
+superiorThreshold: 'Ngưỡng cấp trên',
+subordinateThreshold: 'Ngưỡng cấp dưới',
+tierOne: 'Cấp 1',
+tierTwo: 'Cấp 2',
+tierThree: 'Cấp 3',
+threshold300M: '3M',
+threshold150M: '1.5M',
+threshold80M: '800K',
+threshold50M: '500K',
+threshold10M: '100K',
+lockData: 'Khóa',
+projectData: 'Dữ liệu Dự án',
+referralLink: 'Liên kết Giới thiệu',
+copyLink: 'Sao chép',
+bindReferrer: 'Liên kết',
+referralLinkPlaceholder: 'Liên kết Giới thiệu',
+referrerPlaceholder: 'Nhập địa chỉ người giới thiệu',
+referralRewardClaim: 'Nhận Phần thưởng Giới thiệu',
+noDownline: 'Không có cấp dưới',
+notQualified: 'Chưa đạt',
+claimable: 'Có thể nhận',
+claimedAll: 'Đã nhận hết',
+myWallet: 'Ví của tôi',
+tokenBalance: 'Số dư Token',
+totalDexBuy: 'Tổng mua DEX',
+holdStatus: 'Trạng thái nắm giữ',
+currentHoldThreshold: 'Ngưỡng nắm giữ hiện tại',
+holdStartTime: 'Thời gian bắt đầu nắm giữ',
+unlockTime24h: 'Thời gian mở khóa 24h',
+userPhase: 'Giai đoạn người dùng',
+confirm: 'Xác nhận',
+installWallet: 'Vui lòng cài đặt MetaMask, TokenPocket hoặc ví Web3 khác',
+switchToBSC: 'Vui lòng chuyển sang BSC Mainnet thủ công',
+autoBindReferrer: 'Đang tự động liên kết người giới thiệu...',
+bindSuccess: 'Liên kết người giới thiệu thành công!',
+connectFirst: 'Vui lòng kết nối ví trước',
+copySuccess: 'Sao chép thành công!',
+bindSuccessToast: 'Liên kết thành công!',
+noDownlineToClaim: 'Không có cấp dưới để nhận',
+startClaiming: 'Bắt đầu nhận tất cả một lần...',
+userCancelled: 'Người dùng hủy ký, dừng nhận',
+downline: 'cấp dưới',
+tierClaim: 'cấp',
+claimSuccess: 'Nhận thành công',
+claimFailed: 'Thất bại',
+operationError: 'Lỗi thao tác',
+chainOnPhase: 'Giai đoạn on-chain',
+phaseEndedBadge: '(đạt mục tiêu đốt, chờ giai đoạn sau)',
+referrerStatusLabel: 'Người giới thiệu',
+connectedWallet: 'Địa chỉ ví',
+holdQualifiedLabel: 'Đủ điều kiện nắm giữ',
+referrerBound: 'Đã liên kết',
+referrerNotBound: 'Chưa liên kết',
+holdYes: '✅ Đạt',
+holdNo: '❌ Chưa đạt',
+userPhaseNewLabel: 'Người mới',
+claimLogTitle: 'Nhật ký',
+logTryClaimFmt: 'Nhận {addr} tầng {tier}',
+logTierOkFmt: '✓ Tầng {tier} thành công',
+logTierFailFmt: '✗ Tầng {tier} lỗi: {msg}',
+logDoneFmt: 'Xong OK:{ok} lỗi:{fail}',
+logPhaseLineFmt: 'Giai đoạn:{phase} cấp dưới:{count}',
+userRejectConnect: 'Đã hủy kết nối',
+walletDenied: 'Chưa ủy quyền ví',
+invalidAddress: 'Nhập địa chỉ ví hợp lệ',
+userPhaseFmt: 'Giai đoạn {phase}',
+err24hHold: 'Chưa đủ điều kiện giữ 24h',
+errTierTimer: 'Bộ đếm giữ tầng chưa bắt đầu',
+errTierClaimed: 'Đã nhận thưởng tầng này',
+errDownHold: 'Cấp dưới giữ không đủ',
+errUpHold: 'Cấp trên giữ không đủ',
+errHoldQualified: 'Giữ không đạt',
+errAlreadyBound: 'Đã liên kết người giới thiệu',
+errInvalidReferrer: 'Người giới thiệu không hợp lệ',
+errSelfRef: 'Không thể tự giới thiệu chính mình',
+errNoBuy: 'Cấp dưới chưa mua DEX đủ điều kiện',
+errTooSoon: 'Thao tác quá sớm',
+errInvalidTier: 'Tầng không hợp lệ',
+errNotReferrer: 'Không phải người giới thiệu của cấp dưới',
+errOldUserClear: 'Người cũ cần xả vị thế trước',
+errAlreadyClaimed: 'Đã nhận',
+errNotQualified: 'Không đủ điều kiện',
+errInsufficientBalance: 'Số dư không đủ',
+errTransferFailed: 'Chuyển thất bại',
+errUnauthorized: 'Chưa được phép',
+errAlreadySigned: 'Đã ký',
+errNotEnoughSigs: 'Chưa đủ chữ ký',
+errInvalidAddress: 'Địa chỉ không hợp lệ',
+errUserRejected: 'Người dùng từ chối ký',
+errRevertFmt: 'Hoàn tác: {reason}',
+errUnknownFmt: '{detail}',
+logErrorFmt: 'Lỗi: {msg}',
+wrongNetworkStrict: 'Sai mạng: hãy chuyển sang BSC trong ví rồi kết nối lại.',
+contractNotConfigured: 'Chưa cấu hình địa chỉ hợp đồng chính; không thể đọc dữ liệu on-chain (đặt CONFIG.MAIN_CONTRACT sau khi triển khai).',
+zeroAddressNotAllowed: 'Không được dùng địa chỉ zero.',
+cannotBindSelf: 'Bạn không thể tự gán mình làm người giới thiệu.',
+txPending: 'Giao dịch đã gửi, đang chờ xác nhận…',
+duplicateActionWait: 'Vui lòng chờ giao dịch trước hoàn tất.',
+errUplineNoDex: 'Địa chỉ này chưa có lượt mua DEX hợp lệ, không thể làm người giới thiệu.',
+errUplineCooldownFmt: 'Người giới thiệu đang trong thời gian chờ (cooldown). Thử lại sau khi số khối vượt {block}.',
+chainReadFailed: 'Đọc dữ liệu on-chain thất bại. Kiểm tra mạng, địa chỉ hợp đồng hoặc CSP trình duyệt.'
+},
+th: {
+pageTitle: 'Tiny Winged Dragon',
+selectLanguage: 'ภาษา',
+menuTitle: 'เมนู',
+languageSection: 'ภาษา',
+menuLangHint: 'เลือกแล้วหน้าจอเปลี่ยนทันที หาก TokenPocket ไม่เปลี่ยน ลองรีเฟรช',
+connectWallet: 'เชื่อมต่อกระเป๋า',
+disconnectWallet: 'ตัดการเชื่อมต่อ',
+tabHome: 'หน้าแรก',
+tabLock: 'ล็อก',
+tabReferral: 'แนะนำ',
+tabInfo: 'ของฉัน',
+phaseProgress: 'ความคืบหน้าของระยะ',
+phase1: 'ระยะ 1',
+phase2: 'ระยะ 2',
+phase3: 'ระยะ 3',
+reward1Percent: '1% รางวัล',
+reward3Percent: '3% รางวัล',
+reward5Percent: '5% รางวัล',
+currentPhaseRewardDesc: 'รายละเอียดรางวัลระยะปัจจุบัน',
+tier: 'ระดับ',
+superiorThreshold: 'เกณฑ์ระดับบน',
+subordinateThreshold: 'เกณฑ์ระดับล่าง',
+tierOne: 'ระดับ 1',
+tierTwo: 'ระดับ 2',
+tierThree: 'ระดับ 3',
+threshold300M: '3M',
+threshold150M: '1.5M',
+threshold80M: '800K',
+threshold50M: '500K',
+threshold10M: '100K',
+lockData: 'ล็อก',
+projectData: 'ข้อมูลโปรเจกต์',
+referralLink: 'ลิงก์แนะนำ',
+copyLink: 'คัดลอก',
+bindReferrer: 'เชื่อมโยง',
+referralLinkPlaceholder: 'ลิงก์แนะนำ',
+referrerPlaceholder: 'ใส่ที่อยู่ผู้แนะนำ',
+referralRewardClaim: 'รับรางวัลแนะนำ',
+noDownline: 'ไม่มีระดับล่าง',
+notQualified: 'ไม่ผ่าน',
+claimable: 'รับได้',
+claimedAll: 'รับแล้ว',
+myWallet: 'กระเป๋าของฉัน',
+tokenBalance: 'ยอด Token',
+totalDexBuy: 'ซื้อ DEX รวม',
+holdStatus: 'สถานะถือ',
+currentHoldThreshold: 'เกณฑ์ถือปัจจุบัน',
+holdStartTime: 'เวลาเริ่มถือ',
+unlockTime24h: 'เวลาปลดล็อก 24 ชม.',
+userPhase: 'ระดับผู้ใช้',
+confirm: 'ยืนยัน',
+installWallet: 'กรุณาติดตั้ง MetaMask, TokenPocket หรือกระเป๋า Web3 อื่น',
+switchToBSC: 'กรุณาสลับเป็น BSC Mainnet ด้วยตัวเอง',
+autoBindReferrer: 'กำลังเชื่อมโยงผู้แนะนำอัตโนมัติ...',
+bindSuccess: 'เชื่อมโยงผู้แนะนำสำเร็จ!',
+connectFirst: 'กรุณาเชื่อมต่อกระเป๋าก่อน',
+copySuccess: 'คัดลอกสำเร็จ!',
+bindSuccessToast: 'เชื่อมโยงสำเร็จ!',
+noDownlineToClaim: 'ไม่มีระดับล่างที่จะรับ',
+startClaiming: 'เริ่มรับทั้งหมดในคลิกเดียว...',
+userCancelled: 'ผู้ใช้ยกเลิกการลงนาม หยุดรับ',
+downline: 'ระดับล่าง',
+tierClaim: 'ระดับ',
+claimSuccess: 'รับสำเร็จ',
+claimFailed: 'ล้มเหลว',
+operationError: 'ข้อผิดพลาดการทำงาน',
+chainOnPhase: 'เฟสบน-chain',
+phaseEndedBadge: '(ถึงเป้าเผา รอเฟสถัดไป)',
+referrerStatusLabel: 'ผู้แนะนำ',
+connectedWallet: 'ที่อยู่กระเป๋า',
+holdQualifiedLabel: 'ถือครบเงื่อนไข',
+referrerBound: 'ผูกแล้ว',
+referrerNotBound: 'ยังไม่ผูก',
+holdYes: '✅ ผ่าน',
+holdNo: '❌ ไม่ผ่าน',
+userPhaseNewLabel: 'ผู้ใช้ใหม่',
+claimLogTitle: 'บันทึก',
+logTryClaimFmt: 'รับ {addr} ชั้น {tier}',
+logTierOkFmt: '✓ ชั้น {tier} สำเร็จ',
+logTierFailFmt: '✗ ชั้น {tier} ล้มเหลว: {msg}',
+logDoneFmt: 'เสร็จ สำเร็จ:{ok} ล้มเหลว:{fail}',
+logPhaseLineFmt: 'เฟส:{phase} ดาวน์ไลน์:{count}',
+userRejectConnect: 'ยกเลิกการเชื่อมต่อ',
+walletDenied: 'ยังไม่อนุญาตกระเป๋า',
+invalidAddress: 'ใส่ที่อยู่กระเป๋าที่ถูกต้อง',
+userPhaseFmt: 'เฟส {phase}',
+err24hHold: 'ยังไม่ครบเงื่อนไขถือ 24 ชม.',
+errTierTimer: 'ตัวจับเวลาถือระดับยังไม่เริ่ม',
+errTierClaimed: 'รับรางวัลระดับนี้แล้ว',
+errDownHold: 'ดาวน์ไลน์ถือไม่พอ',
+errUpHold: 'อัปไลน์ถือไม่พอ',
+errHoldQualified: 'การถือไม่ผ่านเกณฑ์',
+errAlreadyBound: 'ผูกผู้แนะนำแล้ว',
+errInvalidReferrer: 'ผู้แนะนำไม่ถูกต้อง',
+errSelfRef: 'ไม่สามารถผูกตัวเองเป็นผู้แนะนำ',
+errNoBuy: 'ดาวน์ไลน์ยังไม่ซื้อ DEX ตามเงื่อนไข',
+errTooSoon: 'ทำรีบเกินไป',
+errInvalidTier: 'ระดับไม่ถูกต้อง',
+errNotReferrer: 'ไม่ใช่ผู้แนะนำของดาวน์ไลน์',
+errOldUserClear: 'ผู้ใช้เก่าต้องเคลียร์ก่อน',
+errAlreadyClaimed: 'รับแล้ว',
+errNotQualified: 'ไม่ผ่านเงื่อนไข',
+errInsufficientBalance: 'ยอดไม่พอ',
+errTransferFailed: 'โอนล้มเหลว',
+errUnauthorized: 'ไม่ได้รับอนุญาต',
+errAlreadySigned: 'ลงนามแล้ว',
+errNotEnoughSigs: 'ลายเซ็นไม่พอ',
+errInvalidAddress: 'ที่อยู่ไม่ถูกต้อง',
+errUserRejected: 'ผู้ใช้ปฏิเสธลงนาม',
+errRevertFmt: 'ย้อนกลับ: {reason}',
+errUnknownFmt: '{detail}',
+logErrorFmt: 'ข้อผิดพลาด: {msg}',
+wrongNetworkStrict: 'เครือข่ายไม่ถูกต้อง: สลับเป็น BSC ในกระเป๋าแล้วเชื่อมต่อใหม่',
+contractNotConfigured: 'ยังไม่ได้ตั้งที่อยู่สัญญาหลัก จึงอ่านข้อมูลบนเชนไม่ได้ (ตั้ง CONFIG.MAIN_CONTRACT หลัง deploy)',
+zeroAddressNotAllowed: 'ไม่อนุญาตให้ใช้ที่อยู่ศูนย์',
+cannotBindSelf: 'ไม่สามารถผูกตัวเองเป็นผู้แนะนำได้',
+txPending: 'ส่งธุรกรรมแล้ว กำลังรอการยืนยัน…',
+duplicateActionWait: 'โปรดรอให้ธุรกรรมก่อนหน้าเสร็จสิ้น',
+errUplineNoDex: 'ที่อยู่นี้ยังไม่มีประวัติซื้อ DEX ตามเงื่อนไข จึงเป็นผู้แนะนำไม่ได้',
+errUplineCooldownFmt: 'ผู้แนะนำอยู่ในช่วงคูลดาวน์ ลองใหม่เมื่อเลขบล็อกสูงกว่า {block}',
+chainReadFailed: 'อ่านข้อมูลบนเชนล้มเหลว ตรวจสอบเครือข่าย ที่อยู่สัญญา หรือ CSP'
+}
+};
+
+/** 简体中文（基于 zh-TW，覆盖常用界面文案） */
+I18N['zh-CN'] = Object.assign({}, I18N['zh-TW'], {
+pageTitle: 'Tiny Winged Dragon',
+tokenName: 'TWD',
+tokenSlogan: '生态社区共治',
+notConnected: '未连接',
+selectLanguage: '选择语言',
+menuTitle: '菜单',
+languageSection: '语言',
+menuLangHint: '选择语言后界面将立即切换。若 TokenPocket 内无反应，请尝试刷新页面。',
+connectWallet: '连接钱包',
+disconnectWallet: '断开连接',
+tabHome: '首页',
+tabLock: '锁仓',
+tabReferral: '推广',
+tabInfo: '我的',
+phaseProgress: '阶段进度',
+referralLink: '推广链接',
+copyLink: '复制',
+bindReferrer: '绑定',
+refreshFailed: '刷新失败，请检查网络后重试',
+refreshTooFast: '请勿频繁刷新，{sec} 秒后再试',
+refreshLimitReached: '刷新次数过多，请 {sec} 秒后再试',
+refreshInProgress: '正在刷新中，请稍候…',
+refreshInProgressGlobal: '其他标签页正在刷新，请稍后再试',
+loadDownlineTooFast: '请勿频繁加载下级列表，{sec} 秒后再试',
+loadMoreDownlines: '加载更多下级（还剩 {n} 人）',
+downlineListTruncated: '已显示 {shown} / {total} 人',
+downlineListTitle: '直推下级',
+statusClaimable: '可领取',
+statusClaimed: '已领取',
+statusNeedUpline: '上级未达档（需 {need}，您当前 {hold}）',
+statusNeedDownline: '下级未达档',
+statusPendingLock: '下级持仓锁定未满24小时',
+statusPendingTimer: '下级尚未形成档位计时',
+statusNoDex: '下级尚无合格DEX买入',
+statusNoDownline: '暂无直推下级，请先分享推广链接',
+uplineHoldLine: '您当前阶段净持仓：{hold}（领奖须同时满足上级+下级门槛）',
+totalRewardClaimedLabel: '累计领取总计',
+referralPerDownlineHint: '仅读取直推下级列表（一次读链）。点某一档「领取」时再验证该下级并发起交易，无需全员刷新。',
+loadDownlineList: '加载下级列表',
+loadDownlineListBusy: '正在加载下级列表...',
+claimTierBtn: '领{tier}档',
+claimTierBtnClaimed: '已领{tier}档',
+myReferralTierTitle: '推荐奖励档位（只读）',
+myReferralTierHint: '达标后请让您的推荐人在「推广」页点击对应档位领取，奖励进入推荐人钱包。',
+myNetHoldLine: '我的阶段净持仓：{hold}',
+myUplineHoldLine: '推荐人阶段净持仓：{hold}',
+askReferrerClaim: '第{tier}档已达标，请让推荐人 {addr} 在「推广」页领取',
+tierStatusInactive: '未达标',
+tierStatusPending: '待24小时',
+tierStatusReady: '可领（请推荐人领取）',
+tierStatusClaimed: '已领取',
+claimTierVerifying: '正在验证并领取...',
+walletConfirmClaim: '请在 TokenPocket 中确认签名',
+claimOpeningWallet: '正在唤起钱包，请稍候…',
+logTxSubmittedFmt: '交易已广播 {hash}',
+errSendTimeout: '发送超时：请查看钱包是否有待确认交易，或刷新页面后重试',
+tierPanelLoading: '正在读取档位状态...',
+tierPanelUplineOnly: '此卡片仅显示给已绑定推荐人的账号；作为推荐人请在「推广」页领取奖励。',
+claimRescanning: '领取前正在更新可领数据...',
+myWallet: '我的钱包',
+confirm: '确定',
+installWallet: '请安装 MetaMask、TokenPocket 或其他 Web3 钱包',
+connectFirst: '请先连接钱包',
+copySuccess: '复制成功',
+operationError: '操作错误',
+wrongNetworkStrict: '网络不正确：请在钱包中切换到 BSC 主网后再连接',
+contractNotConfigured: '主合约地址尚未配置，无法读取链上数据（部署后请填 CONFIG.MAIN_CONTRACT）',
+invalidAddress: '请输入有效的钱包地址（可粘贴 0x 地址或完整推广链接）',
+errUplineNoDex: '该推荐人尚无合格 DEX 买入记录，无法作为推荐人（须先在 Pancake 买币）',
+chainReadFailed: '链上读取失败，请检查网络、合约地址或浏览器安全策略',
+referrerStatusLabel: '推荐人',
+connectedWallet: '钱包地址',
+refLinkPrefilled: '已从推广链接填入推荐人地址，请点击「绑定」并在钱包中确认',
+bindingInProgress: '正在绑定中，请在钱包中确认，请勿重复点击',
+bindSkipReadHint: '预读链上数据失败，将直接发起绑定，请在钱包确认（不符合条件会由链上退回）'
+});
+
+const LANG_ALIASES = { zh: 'zh-CN', 'zh-hans': 'zh-CN', 'zh-hant': 'zh-TW', 'zh-hk': 'zh-TW' };
+
+function normalizeLang(code) {
+if (!code) return null;
+const c = String(code).trim();
+if (I18N[c]) return c;
+const lower = c.toLowerCase();
+if (I18N[lower]) return lower;
+if (LANG_ALIASES[lower]) return LANG_ALIASES[lower];
+const base = lower.split('-')[0];
+if (I18N[base]) return base;
+if (LANG_ALIASES[base]) return LANG_ALIASES[base];
+return null;
+}
+
+const LANG_STORAGE_KEY = 'xyl_lang';
+function safeStorageGet(key) {
+try { return localStorage.getItem(key); } catch (e) {}
+try { return sessionStorage.getItem(key); } catch (e2) {}
+return null;
+}
+function safeStorageSet(key, val) {
+try { localStorage.setItem(key, val); return; } catch (e) {}
+try { sessionStorage.setItem(key, val); } catch (e2) {}
+}
+
+function detectDefaultLang() {
+const saved = normalizeLang(safeStorageGet(LANG_STORAGE_KEY));
+if (saved) return saved;
+try {
+const nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+if (nav.indexOf('zh-tw') >= 0 || nav.indexOf('zh-hk') >= 0 || nav.indexOf('zh-hant') >= 0) return 'zh-TW';
+if (nav.indexOf('zh') >= 0) return 'zh-CN';
+} catch (e) {}
+return 'zh-CN';
+}
+
+let currentLang = detectDefaultLang();
+
+function t(key) {
+const langData = I18N[currentLang] || I18N['zh-CN'] || I18N['zh-TW'];
+return langData[key] || key;
+}
+
+/** @param {Record<string, string|number>} [vars] */
+function tf(key, vars) {
+let s = t(key);
+if (vars && typeof vars === 'object') {
+for (const k of Object.keys(vars)) {
+s = s.split('{' + k + '}').join(String(vars[k]));
+}
+}
+return s;
+}
+
+function setElText(id, text) {
+const el = document.getElementById(id);
+if (el) el.textContent = text;
+}
+
+var LANG_UI = {
+'zh-CN': { short: 'CN', flag: '🇨🇳', label: '简体中文' },
+'zh-TW': { short: 'TW', flag: '🇹🇼', label: '繁體中文' },
+'en': { short: 'EN', flag: '🇬🇧', label: 'English' },
+'ja': { short: 'JP', flag: '🇯🇵', label: '日本語' },
+'ko': { short: 'KR', flag: '🇰🇷', label: '한국어' },
+'vi': { short: 'VI', flag: '🇻🇳', label: 'Tiếng Việt' },
+'th': { short: 'TH', flag: '🇹🇭', label: 'ไทย' }
+};
+
+function collapseLangPanel() {
+var list = document.getElementById('langMenuList');
+var tr = document.getElementById('langMenuTrigger');
+if (list) list.classList.remove('open');
+if (tr) tr.classList.remove('open');
+}
+
+function toggleLangPanel() {
+var list = document.getElementById('langMenuList');
+var tr = document.getElementById('langMenuTrigger');
+if (!list || !tr) return;
+list.classList.toggle('open');
+tr.classList.toggle('open');
+}
+
+function toggleAppMenu(open) {
+var el = document.getElementById('menuOverlay');
+if (!el) return;
+if (open === true) {
+el.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+return;
+}
+if (open === false) {
+el.classList.add('hidden');
+document.body.style.overflow = '';
+collapseLangPanel();
+}
+}
+
+function updateLangMenuUI() {
+var meta = LANG_UI[currentLang] || LANG_UI['zh-CN'] || LANG_UI['zh-TW'];
+var ff = document.getElementById('langTriggerFlag');
+var fs = document.getElementById('langTriggerShort');
+var fl = document.getElementById('langTriggerLabel');
+if (ff) ff.textContent = meta.flag;
+if (fs) fs.textContent = meta.short;
+if (fl) fl.textContent = meta.label;
+var rows = document.querySelectorAll('.lang-menu-row');
+for (var i = 0; i < rows.length; i++) {
+var row = rows[i];
+row.classList.toggle('active', row.getAttribute('data-lang') === currentLang);
+}
+}
+
+function findLangRow(el) {
+while (el && el !== document) {
+if (el.nodeType === 1 && el.classList && el.classList.contains('lang-menu-row')) return el;
+el = el.parentNode;
+}
+return null;
+}
+
+function setLanguage(lang) {
+const code = normalizeLang(lang);
+if (!code || !I18N[code]) {
+console.warn('[TWD] unknown language:', lang);
+return;
+}
+currentLang = code;
+safeStorageSet(LANG_STORAGE_KEY, code);
+try { document.documentElement.lang = code; } catch (e) {}
+applyTranslations();
+updateLangMenuUI();
+collapseLangPanel();
+toggleAppMenu(false);
+}
+
+function applyTranslations() {
+document.title = t('pageTitle');
+document.querySelectorAll('[data-i18n]').forEach(el => {
+const key = el.getAttribute('data-i18n');
+el.textContent = t(key);
+});
+document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+const key = el.getAttribute('data-i18n-placeholder');
+el.placeholder = t(key);
+});
+}
+
+let web3;
+let account;
+let mainContract;
+let readWeb3;
+let readContract;
+let lockContract;
+let isLoading = false;
+let refreshTimestamps = [];
+let lastRefreshClickAt = 0;
+let lastLoadDownlineListAt = 0;
+let rpcQueue = Promise.resolve();
+let lastRpcAt = 0;
+let downlineTierRefreshGen = 0;
+let uplineDownlineDisplayCount = 0;
+/** 本标签页：同一时刻只允许 1 个 refreshData 在执行 */
+let refreshInFlight = null;
+
+function tryAcquireGlobalRefreshLock() {
+if (typeof localStorage === 'undefined') return { ok: true };
+const now = Date.now();
+const until = now + SECURITY.GLOBAL_REFRESH_LOCK_MS;
+try {
+const raw = localStorage.getItem(REFRESH_LOCK_STORAGE_KEY);
+if (raw) {
+const lock = JSON.parse(raw);
+if (lock && lock.until > now && lock.tabId !== REFRESH_TAB_ID) {
+return { ok: false, message: t('refreshInProgressGlobal') };
+}
+}
+localStorage.setItem(REFRESH_LOCK_STORAGE_KEY, JSON.stringify({ tabId: REFRESH_TAB_ID, until: until }));
+return { ok: true };
+} catch (e) {
+console.warn('[TWD] refresh lock acquire', e);
+return { ok: true };
+}
+}
+
+function releaseGlobalRefreshLock() {
+if (typeof localStorage === 'undefined') return;
+try {
+const raw = localStorage.getItem(REFRESH_LOCK_STORAGE_KEY);
+if (!raw) return;
+const lock = JSON.parse(raw);
+if (lock && lock.tabId === REFRESH_TAB_ID) localStorage.removeItem(REFRESH_LOCK_STORAGE_KEY);
+} catch (e) {
+console.warn('[TWD] refresh lock release', e);
+}
+}
+
+function isOtherTabRefreshing() {
+if (typeof localStorage === 'undefined') return false;
+try {
+const raw = localStorage.getItem(REFRESH_LOCK_STORAGE_KEY);
+if (!raw) return false;
+const lock = JSON.parse(raw);
+return !!(lock && lock.until > Date.now() && lock.tabId !== REFRESH_TAB_ID);
+} catch (e) {
+return false;
+}
+}
+
+function setRefreshButtonVisible(visible) {
+const btn = document.getElementById('refreshBtn');
+if (!btn) return;
+btn.style.display = visible ? 'flex' : 'none';
+if (!visible) {
+btn.disabled = false;
+btn.classList.remove('spinning', 'is-busy', 'locked-other-tab');
+btn.removeAttribute('aria-busy');
+}
+}
+
+function updateRefreshButtonState() {
+const btn = document.getElementById('refreshBtn');
+if (!btn || btn.style.display === 'none') return;
+const otherTab = isOtherTabRefreshing();
+const busy = !!refreshInFlight || otherTab;
+btn.disabled = busy;
+btn.classList.toggle('is-busy', !!refreshInFlight);
+btn.classList.toggle('locked-other-tab', otherTab && !refreshInFlight);
+if (refreshInFlight) btn.setAttribute('aria-busy', 'true');
+else btn.removeAttribute('aria-busy');
+}
+
+function scheduleRpc(fn) {
+const run = rpcQueue.then(async function () {
+const now = Date.now();
+const gap = SECURITY.RPC_MIN_INTERVAL_MS - (now - lastRpcAt);
+if (gap > 0) await new Promise(function (r) { setTimeout(r, gap); });
+lastRpcAt = Date.now();
+return fn();
+});
+rpcQueue = run.catch(function () {});
+return run;
+}
+
+function checkRefreshAllowed() {
+const now = Date.now();
+if (now - lastRefreshClickAt < SECURITY.REFRESH_DEBOUNCE_MS) {
+const sec = Math.ceil((SECURITY.REFRESH_DEBOUNCE_MS - (now - lastRefreshClickAt)) / 1000);
+return { ok: false, message: tf('refreshTooFast', { sec: sec }) };
+}
+refreshTimestamps = refreshTimestamps.filter(function (ts) { return now - ts < SECURITY.REFRESH_WINDOW_MS; });
+if (refreshTimestamps.length >= SECURITY.REFRESH_MAX_PER_WINDOW) {
+const oldest = refreshTimestamps[0];
+const sec = Math.ceil((SECURITY.REFRESH_WINDOW_MS - (now - oldest)) / 1000);
+return { ok: false, message: tf('refreshLimitReached', { sec: Math.max(1, sec) }) };
+}
+return { ok: true };
+}
+
+function recordRefreshClick() {
+lastRefreshClickAt = Date.now();
+refreshTimestamps.push(lastRefreshClickAt);
+}
+
+function checkLoadDownlineAllowed() {
+const now = Date.now();
+if (now - lastLoadDownlineListAt < SECURITY.LOAD_DOWNLINE_COOLDOWN_MS) {
+const sec = Math.ceil((SECURITY.LOAD_DOWNLINE_COOLDOWN_MS - (now - lastLoadDownlineListAt)) / 1000);
+return { ok: false, message: tf('loadDownlineTooFast', { sec: sec }) };
+}
+return { ok: true };
+}
+
+function recordLoadDownlineClick() {
+lastLoadDownlineListAt = Date.now();
+}
+
+function getDisplayedDownlineAddresses(full) {
+if (!full || !full.length) return [];
+const cap = uplineDownlineDisplayCount > 0
+? uplineDownlineDisplayCount
+: Math.min(full.length, SECURITY.DOWNLINE_INITIAL_SHOW);
+return full.slice(0, Math.min(cap, full.length));
+}
+
+/** 读链优先 HTTP RPC（稳定）；失败时回退钱包节点 */
+function vc() {
+return readContract || mainContract;
+}
+
+/** TokenPocket / MetaMask 等 App 内置浏览器：必须用钱包注入节点读链，不能直连 HTTP RPC（易被 CORS/HTTPS 拦截） */
+function isInAppWalletBrowser() {
+if (typeof window === "undefined") return false;
+if (window.ethereum && (window.ethereum.isTokenPocket || window.ethereum.isMetaMask)) return true;
+if (window.tokenpocket || window.tp) return true;
+const ua = navigator.userAgent || "";
+return /TokenPocket|MetaMaskMobile|imToken|TrustWallet|OKApp/i.test(ua);
+}
+
+function rpcUrlList() {
+const primary = (CONFIG.BSC_RPC || "").trim();
+return primary
+ ? [primary].concat(RPC_FALLBACKS.filter(function (u) { return u !== primary; }))
+ : RPC_FALLBACKS.slice();
+}
+
+async function connectHttpWeb3() {
+const urls = rpcUrlList();
+for (let i = 0; i < urls.length; i++) {
+const url = urls[i];
+try {
+const provider = new Web3.providers.HttpProvider(url, { keepAlive: false, timeout: 20000 });
+const w = new Web3(provider);
+const block = await Promise.race([
+w.eth.getBlockNumber(),
+new Promise(function (_, rej) { setTimeout(function () { rej(new Error("rpc timeout")); }, 20000); })
+]);
+await new w.eth.Contract(MAIN_ABI, CONFIG.MAIN_CONTRACT).methods.totalSupply().call();
+console.info("[TWD] read RPC ok:", url, "block", block);
+return w;
+} catch (e) {
+console.warn("[TWD] RPC fail:", url, e && (e.message || e));
+}
+}
+return null;
+}
+
+async function initReadProvider() {
+readWeb3 = null;
+readContract = null;
+/** TokenPocket 等内置浏览器常拦截对外 HTTP RPC，优先用钱包节点读链 */
+if (isInAppWalletBrowser() && web3 && mainContract) {
+try {
+await mainContract.methods.totalSupply().call();
+readWeb3 = web3;
+readContract = mainContract;
+console.info("[TWD] read via wallet (in-app browser)");
+return true;
+} catch (eWallet) {
+console.warn("[TWD] wallet read failed in-app", eWallet);
+}
+}
+const httpW = await connectHttpWeb3();
+if (httpW) {
+readWeb3 = httpW;
+readContract = new httpW.eth.Contract(MAIN_ABI, CONFIG.MAIN_CONTRACT);
+return true;
+}
+if (web3 && mainContract) {
+try {
+await mainContract.methods.totalSupply().call();
+readWeb3 = web3;
+readContract = mainContract;
+console.warn("[TWD] HTTP RPC unavailable, read via wallet");
+return true;
+} catch (eWallet) {
+console.warn("[TWD] wallet read probe failed", eWallet);
+}
+}
+return false;
+}
+
+function toDecimalString(val) {
+if (val == null) return '0';
+if (typeof val === 'string' || typeof val === 'number') return String(val);
+if (typeof val === 'bigint') return val.toString(10);
+if (val._hex && web3 && web3.utils) return web3.utils.hexToNumberString(val._hex);
+if (val.toString) return val.toString(10);
+return String(val);
+}
+
+/** 不依赖 Web3 Contract，TokenPocket 最稳的读链方式 */
+const RAW_VIEW_SEL = {
+balanceOf: '0x70a08231',
+dexBuyAmount: '0x5f51a1ae',
+referrer: '0x2cf003c2',
+currentPhase: '0x055ad42e',
+phaseTiers: '0x962b193a',
+tierHoldTimer: '0x56d143c3',
+downlines: '0x4a505a30',
+getCurrentPhaseNetHold: '0xb614752c',
+tierClaimed: '0xc815a9c9',
+totalRewardClaimed: '0xbd9dc8f6'
+};
+
+function encodeUint8Param(n) {
+const v = Math.max(0, Math.min(255, Number(n) || 0));
+return v.toString(16).padStart(64, '0');
+}
+
+function decodeTwoUint256Hex(hex) {
+const h = String(hex || '').replace(/^0x/i, '');
+if (h.length < 128) return { upMin: '0', downMin: '0' };
+return {
+upMin: decodeUint256Hex('0x' + h.slice(0, 64)),
+downMin: decodeUint256Hex('0x' + h.slice(64, 128))
+};
+}
+
+function encodeAddrParam(addr) {
+return String(addr).toLowerCase().replace(/^0x/, '').padStart(64, '0');
+}
+
+function decodeUint256Hex(hex) {
+const h = String(hex || '').replace(/^0x/i, '');
+if (!h || /^0+$/.test(h)) return '0';
+if (typeof BigInt !== 'undefined') return BigInt('0x' + h).toString(10);
+if (web3 && web3.utils) return web3.utils.hexToNumberString('0x' + h);
+return '0';
+}
+
+function decodeAddressHex(hex) {
+const h = String(hex || '').replace(/^0x/i, '');
+if (h.length < 40) return '0x0000000000000000000000000000000000000000';
+return '0x' + h.slice(-40);
+}
+
+/** 解析 address[] 返回值（兼容 TP 钱包 eth_call 原始 hex） */
+function decodeAddressArrayHex(hex) {
+const h = String(hex || '').replace(/^0x/i, '');
+if (!h || /^0+$/.test(h)) return [];
+if (h.length < 128) return [];
+const offset = parseInt(h.slice(0, 64), 16) * 2;
+if (offset + 64 > h.length) return [];
+const len = parseInt(h.slice(offset, offset + 64), 16);
+const out = [];
+for (let i = 0; i < len; i++) {
+const start = offset + 64 + i * 64;
+if (start + 64 > h.length) break;
+const addr = decodeAddressHex('0x' + h.slice(start, start + 64));
+if (addr && !isZeroContractAddress(addr)) out.push(addr);
+}
+return out;
+}
+
+function normalizeAddressArray(v) {
+if (v == null) return [];
+if (Array.isArray(v)) {
+return v.map(function (a) { return normalizeAddressResult(a); }).filter(function (a) {
+return isLikelyEthAddress(a) && !isZeroContractAddress(a);
+});
+}
+if (typeof v === 'string' && isLikelyEthAddress(v)) {
+return isZeroContractAddress(v) ? [] : [v];
+}
+if (typeof v === 'object') {
+const keys = Object.keys(v).filter(function (k) { return /^\d+$/.test(k); }).sort(function (a, b) { return Number(a) - Number(b); });
+if (keys.length) {
+return keys.map(function (k) { return normalizeAddressResult(v[k]); }).filter(function (a) {
+return isLikelyEthAddress(a) && !isZeroContractAddress(a);
+});
+}
+}
+return [];
+}
+
+async function providerEthCall(callData) {
+return scheduleRpc(function () { return providerEthCallInner(callData); });
+}
+
+async function providerEthCallInner(callData) {
+const payload = { to: CONFIG.MAIN_CONTRACT, data: callData };
+const eth = getEthereumProvider();
+if (eth) {
+try {
+const hex = await eth.request({
+method: 'eth_call',
+params: [payload, 'latest']
+});
+if (hex) return hex;
+} catch (eW) {
+console.warn('[TWD] wallet eth_call', eW && (eW.message || eW));
+}
+}
+const urls = rpcUrlList();
+for (let i = 0; i < urls.length; i++) {
+try {
+const res = await fetch(urls[i], {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+jsonrpc: '2.0',
+id: 1,
+method: 'eth_call',
+params: [payload, 'latest']
+})
+});
+const j = await res.json();
+if (j.result && j.result !== '0x') return j.result;
+} catch (eF) {
+console.warn('[TWD] fetch eth_call', urls[i], eF && (eF.message || eF));
+}
+}
+throw new Error('providerEthCall failed');
+}
+
+async function rawReadBalance(acc) {
+const data = RAW_VIEW_SEL.balanceOf + encodeAddrParam(acc);
+return decodeUint256Hex(await providerEthCall(data));
+}
+
+async function rawReadDexBuy(acc) {
+const data = RAW_VIEW_SEL.dexBuyAmount + encodeAddrParam(acc);
+return decodeUint256Hex(await providerEthCall(data));
+}
+
+async function rawReadReferrer(acc) {
+const data = RAW_VIEW_SEL.referrer + encodeAddrParam(acc);
+return decodeAddressHex(await providerEthCall(data));
+}
+
+async function rawReadNetHold(acc) {
+const data = RAW_VIEW_SEL.getCurrentPhaseNetHold + encodeAddrParam(acc);
+return decodeUint256Hex(await providerEthCall(data));
+}
+
+async function rawReadTierClaimed(upline, downline, phaseNum) {
+const data = RAW_VIEW_SEL.tierClaimed + encodeAddrParam(upline) + encodeAddrParam(downline) + encodeUint8Param(phaseNum);
+return Number(decodeUint256Hex(await providerEthCall(data))) || 0;
+}
+
+async function rawReadDownlines(upline) {
+const data = RAW_VIEW_SEL.downlines + encodeAddrParam(upline);
+return decodeAddressArrayHex(await providerEthCall(data));
+}
+
+async function rawReadTotalRewardClaimed(acc) {
+const data = RAW_VIEW_SEL.totalRewardClaimed + encodeAddrParam(acc);
+return decodeUint256Hex(await providerEthCall(data));
+}
+
+async function walletEthCallData(callData) {
+const eth = getEthereumProvider();
+if (!eth) throw new Error('wallet eth_call unavailable');
+return await eth.request({
+method: 'eth_call',
+params: [{ to: CONFIG.MAIN_CONTRACT, data: callData }, 'latest']
+});
+}
+
+async function readReferrerOf(acc) {
+const data = RAW_VIEW_SEL.referrer + encodeAddrParam(acc);
+const eth = getEthereumProvider();
+if (eth) {
+try {
+return normalizeAddressResult(decodeAddressHex(await walletEthCallData(data)));
+} catch (ew) { console.warn('[TWD] readReferrerOf wallet', ew); }
+}
+try {
+return normalizeAddressResult(await rawReadReferrer(acc));
+} catch (eRaw) {
+if (mainContract && eth) {
+return normalizeAddressResult(await walletViewCall(function (m) { return m.referrer(acc); }));
+}
+throw eRaw;
+}
+}
+
+async function readDexBuyOf(acc) {
+const data = RAW_VIEW_SEL.dexBuyAmount + encodeAddrParam(acc);
+const eth = getEthereumProvider();
+if (eth) {
+try {
+return decodeUint256Hex(await walletEthCallData(data));
+} catch (ew) { console.warn('[TWD] readDexBuyOf wallet', ew); }
+}
+try {
+return await rawReadDexBuy(acc);
+} catch (eRaw) {
+if (mainContract && eth) {
+return toDecimalString(await walletViewCall(function (m) { return m.dexBuyAmount(acc); }));
+}
+throw eRaw;
+}
+}
+
+/** 读档位持仓计时（0=一档 1=二档 2=三档） */
+async function readTierHoldTimerOf(acc, tierId) {
+const data = RAW_VIEW_SEL.tierHoldTimer + encodeAddrParam(acc) + encodeUint8Param(tierId);
+const eth = getEthereumProvider();
+if (eth) {
+try {
+return decodeUint256Hex(await walletEthCallData(data));
+} catch (ew) { console.warn('[TWD] readTierHoldTimerOf wallet', ew); }
+}
+const hex = await providerEthCall(data);
+return decodeUint256Hex(hex);
+}
+
+/** 取当前账户已启动计时的最早一档（用于「我的」页展示） */
+async function readEarliestTierHoldTimer(acc) {
+const errs = [];
+for (let tierId = 0; tierId < 3; tierId++) {
+try {
+const t = await readTierHoldTimerOf(acc, tierId);
+if (t && t !== '0') return t;
+} catch (e) { errs.push(e); }
+try {
+const t = String(await viewCall(function (m) { return m.tierHoldTimer(acc, tierId); }));
+if (t && t !== '0') return t;
+} catch (e2) { errs.push(e2); }
+}
+if (errs.length) console.warn('[TWD] readEarliestTierHoldTimer', errs[0]);
+return '0';
+}
+
+async function rawReadCurrentPhase() {
+const hex = await providerEthCall(RAW_VIEW_SEL.currentPhase);
+return Number(decodeUint256Hex(hex)) || 1;
+}
+
+async function rawReadPhaseTier(phaseNum, tierId) {
+const data = RAW_VIEW_SEL.phaseTiers + encodeUint8Param(phaseNum) + encodeUint8Param(tierId);
+return decodeTwoUint256Hex(await providerEthCall(data));
+}
+
+/** 首页：阶段高亮 + 三档门槛 */
+async function loadHomePhaseTiers() {
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) return;
+let phaseNum = 1;
+try {
+phaseNum = await rawReadCurrentPhase();
+} catch (e) {
+try {
+phaseNum = Number(await viewCall(function (m) { return m.currentPhase(); }));
+} catch (e2) {
+console.warn('[TWD] currentPhase', e2);
+phaseNum = 1;
+}
+}
+['phase1', 'phase2', 'phase3'].forEach(function (id, i) {
+const el = document.getElementById(id);
+if (el) el.classList.toggle('active', i + 1 === phaseNum);
+});
+for (let tierId = 0; tierId < 3; tierId++) {
+try {
+let upMin = '0';
+let downMin = '0';
+try {
+const t = await rawReadPhaseTier(phaseNum, tierId);
+upMin = t.upMin;
+downMin = t.downMin;
+} catch (eRaw) {
+const tier = await viewCall(function (m) { return m.phaseTiers(phaseNum, tierId); });
+upMin = String(tier.upMin != null ? tier.upMin : tier[0]);
+downMin = String(tier.downMin != null ? tier.downMin : tier[1]);
+}
+setElText('tierUp' + tierId, formatToken(String(upMin)));
+setElText('tierDown' + tierId, formatToken(String(downMin)));
+} catch (tierErr) {
+console.warn('[TWD] phaseTiers', phaseNum, tierId, tierErr);
+setElText('tierUp' + tierId, '--');
+setElText('tierDown' + tierId, '--');
+}
+}
+}
+
+function contractForViewEncode() {
+if (mainContract) return mainContract;
+if (readContract) return readContract;
+if (readWeb3) return new readWeb3.eth.Contract(MAIN_ABI, CONFIG.MAIN_CONTRACT);
+if (web3) return new web3.eth.Contract(MAIN_ABI, CONFIG.MAIN_CONTRACT);
+return null;
+}
+
+/** fetch 直连 RPC eth_call（部分环境仅 wallet 失败时可用） */
+async function fetchViewCall(buildMethod) {
+return scheduleRpc(function () { return fetchViewCallInner(buildMethod); });
+}
+
+async function fetchViewCallInner(buildMethod) {
+const c = contractForViewEncode();
+if (!c) throw new Error('fetch view needs contract');
+const call = buildMethod(c.methods);
+const data = call.encodeABI();
+const urls = rpcUrlList();
+for (let i = 0; i < urls.length; i++) {
+try {
+const res = await fetch(urls[i], {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+jsonrpc: '2.0',
+id: 1,
+method: 'eth_call',
+params: [{ to: CONFIG.MAIN_CONTRACT, data: data }, 'latest']
+})
+});
+const j = await res.json();
+if (j.error || !j.result) continue;
+const outs = call._method && call._method.outputs ? call._method.outputs : [{ type: 'uint256' }];
+const types = outs.map(function (o) { return o.type; });
+const decoded = c.options.web3.eth.abi.decodeParameters(types, j.result);
+if (types.length === 1) return decoded[0];
+const arr = [];
+for (let k = 0; k < types.length; k++) arr.push(decoded[k]);
+return arr;
+} catch (e) {
+console.warn('[TWD] fetchViewCall', urls[i], e && (e.message || e));
+}
+}
+throw new Error('fetch eth_call all failed');
+}
+
+/** 通过钱包 eth_call 读 view（TokenPocket 里 contract.call 常失败） */
+async function walletViewCall(buildMethod) {
+return scheduleRpc(function () { return walletViewCallInner(buildMethod); });
+}
+
+async function walletViewCallInner(buildMethod) {
+const eth = getEthereumProvider();
+if (!mainContract || !eth) throw new Error('wallet eth_call unavailable');
+const call = buildMethod(mainContract.methods);
+const data = call.encodeABI();
+const hex = await eth.request({
+method: 'eth_call',
+params: [{ to: CONFIG.MAIN_CONTRACT, data: data }, 'latest']
+});
+const outs = call._method && call._method.outputs ? call._method.outputs : [{ type: 'uint256' }];
+const types = outs.map(function (o) { return o.type; });
+const decoded = mainContract.options.web3.eth.abi.decodeParameters(types, hex);
+if (types.length === 1) return decoded[0];
+const arr = [];
+for (let i = 0; i < types.length; i++) arr.push(decoded[i]);
+return arr;
+}
+
+async function walletSimulateCall(buildMethod) {
+const eth = getEthereumProvider();
+if (!mainContract || !eth || !account) throw new Error('wallet simulate unavailable');
+const call = buildMethod(mainContract.methods);
+const data = call.encodeABI();
+await eth.request({
+method: 'eth_call',
+params: [{ from: account, to: CONFIG.MAIN_CONTRACT, data: data }, 'latest']
+});
+}
+
+async function viewCall(buildMethod) {
+const errs = [];
+if (isInAppWalletBrowser() && mainContract) {
+if (getEthereumProvider()) {
+try { return await walletViewCall(buildMethod); } catch (e1) { errs.push(e1); console.warn('[TWD] wallet eth_call', e1 && (e1.message || e1)); }
+}
+} else {
+try { return await fetchViewCall(buildMethod); } catch (e2) { errs.push(e2); console.warn('[TWD] fetch view', e2 && (e2.message || e2)); }
+}
+const c = vc();
+if (c) {
+try {
+return await scheduleRpc(function () { return buildMethod(c.methods).call(); });
+} catch (eVc) { errs.push(eVc); console.warn('[TWD] vc() call', eVc && (eVc.message || eVc)); }
+}
+if (mainContract && getEthereumProvider()) {
+try { return await walletViewCall(buildMethod); } catch (e3) { errs.push(e3); }
+}
+try { return await fetchViewCall(buildMethod); } catch (e4) { errs.push(e4); }
+throw errs[0] || new Error('no read provider');
+}
+
+const ZERO_ADDRESS_HEX = '0x0000000000000000000000000000000000000000';
+
+function isZeroContractAddress(addr) {
+if (!addr || typeof addr !== 'string') return true;
+return addr.toLowerCase() === ZERO_ADDRESS_HEX.toLowerCase();
+}
+
+function normalizeAddressResult(v) {
+if (v == null || v === undefined) return '';
+if (typeof v === 'string') return v.trim();
+if (Array.isArray(v) && v.length > 0) return normalizeAddressResult(v[0]);
+const s = String(v).trim();
+if (/^0x[0-9a-fA-F]{40}$/i.test(s)) return s;
+return s;
+}
+
+function isLikelyEthAddress(s) {
+const t = String(s || '').trim();
+return /^0x[0-9a-fA-F]{40}$/i.test(t);
+}
+
+/** 从输入框/粘贴内容/推广链接中解析 0x 地址（避免 toChecksumAddress 误报无效） */
+function parseEthAddressInput(raw) {
+if (raw == null) return '';
+let s = String(raw).trim()
+.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, '')
+.replace(/\s+/g, '');
+if (!s) return '';
+const refInUrl = s.match(/[?&]ref=(0x[0-9a-fA-F]{40})/i);
+if (refInUrl) s = refInUrl[1];
+else {
+const found = s.match(/(0x[0-9a-fA-F]{40})/i);
+if (found) s = found[1];
+}
+if (!/^0x[0-9a-fA-F]{40}$/i.test(s)) return '';
+const lower = '0x' + s.slice(2).toLowerCase();
+if (web3 && web3.utils && typeof web3.utils.toChecksumAddress === 'function') {
+try { return web3.utils.toChecksumAddress(lower); } catch (eCs) {}
+}
+if (web3 && web3.utils && typeof web3.utils.isAddress === 'function' && web3.utils.isAddress(lower)) {
+return lower;
+}
+return lower;
+}
+
+function getReferralRootBase() {
+const cfg = CONFIG.REFERRAL_BASE;
+if (cfg != null && String(cfg).trim() !== '') {
+let b = String(cfg).trim();
+return b.endsWith('/') ? b : b + '/';
+}
+try {
+return new URL('.', window.location.href).href;
+} catch (e) {
+return '';
+}
+}
+
+function buildReferralLink(acc) {
+const root = getReferralRootBase();
+if (!root) return '';
+return root + 'referral/?ref=' + encodeURIComponent(acc);
+}
+
+async function refreshReferrerRow() {
+if (!account) return;
+const refEl = document.getElementById('referrerStatus');
+if (!refEl) return;
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) {
+refEl.textContent = t('contractNotConfigured');
+refEl.title = '';
+refEl.removeAttribute('aria-label');
+return;
+}
+try {
+const addr = await readReferrerOf(account);
+const refOk = addr && isLikelyEthAddress(addr) && !isZeroContractAddress(addr);
+if (refOk) {
+let disp = addr;
+try {
+if (web3 && web3.utils) disp = web3.utils.toChecksumAddress(addr);
+} catch (e1) {}
+refEl.textContent = disp.slice(0, 6) + '...' + disp.slice(-4);
+refEl.title = disp;
+refEl.setAttribute('aria-label', t('referrerStatusLabel') + ': ' + disp);
+} else {
+refEl.textContent = t('referrerNotBound');
+refEl.title = '';
+refEl.removeAttribute('aria-label');
+}
+} catch (e) {
+console.warn('refreshReferrerRow', e);
+refEl.textContent = t('chainReadFailed');
+refEl.title = '';
+refEl.removeAttribute('aria-label');
+}
+}
+
+async function ensureWalletOnConfiguredChain(ethereum) {
+const tmp = new Web3(ethereum);
+let chainId = Number(await tmp.eth.getChainId());
+if (chainId === CONFIG.CHAIN_ID) return true;
+try {
+await ethereum.request({
+method: 'wallet_switchEthereumChain',
+params: [{ chainId: '0x' + CONFIG.CHAIN_ID.toString(16) }]
+});
+} catch (e) {
+const code = e && e.code;
+if (code === 4902) showToast(t('switchToBSC'), 'error');
+else showToast(t('wrongNetworkStrict'), 'error');
+return false;
+}
+chainId = Number(await tmp.eth.getChainId());
+if (chainId !== CONFIG.CHAIN_ID) {
+showToast(t('wrongNetworkStrict'), 'error');
+return false;
+}
+return true;
+}
+
+function sanitizeUserFacingText(text) {
+if (text == null) return '';
+const s0 = String(text);
+let s = s0.replace(/0x[a-fA-F0-9]{64,}/gi, '0x***');
+s = s.replace(/0x[a-fA-F0-9]{40}/gi, '0x***');
+if (s.length > 220) s = s.slice(0, 220) + '…';
+return s;
+}
+
+let txPipelineBusy = false;
+let autoBindTimerId = null;
+
+function clearAutoBindTimer() {
+if (autoBindTimerId != null) {
+clearTimeout(autoBindTimerId);
+autoBindTimerId = null;
+}
+}
+
+function normalizeReferrerInputField() {
+const el = document.getElementById('referrerInput');
+if (!el) return '';
+const parsed = parseEthAddressInput(el.value);
+if (parsed) el.value = parsed;
+return parsed || '';
+}
+
+async function sendTxAndWait(sendPromise, options) {
+options = options || {};
+if (!options.skipPendingToast) showToast(t('txPending'), 'info');
+return await sendPromise;
+}
+
+function withTimeout(promise, ms, message) {
+return Promise.race([
+promise,
+new Promise(function (_, reject) {
+setTimeout(function () { reject(new Error(message || 'timeout')); }, ms);
+})
+]);
+}
+
+async function waitForTxReceipt(txHash, maxMs) {
+const w3 = readWeb3 || web3;
+if (!w3 || !txHash) throw new Error('no web3 for receipt');
+const start = Date.now();
+while (Date.now() - start < maxMs) {
+try {
+const r = await w3.eth.getTransactionReceipt(txHash);
+if (r && (r.blockNumber != null || r.status != null)) return r;
+} catch (eR) {
+console.warn('[TWD] getTransactionReceipt', eR);
+}
+await new Promise(function (r) { setTimeout(r, 2000); });
+}
+throw new Error('receipt timeout');
+}
+
+async function resolveClaimGas(downline, tierId) {
+const defaultGas = 400000;
+if (isInAppWalletBrowser()) return defaultGas;
+if (!mainContract || !account) return defaultGas;
+try {
+const est = await withTimeout(
+mainContract.methods.claimReward(downline, tierId).estimateGas({ from: account }),
+8000,
+'estimateGas timeout'
+);
+const n = Number(est);
+if (n > 0) return Math.min(Math.floor(n * 1.25) + 50000, 600000);
+} catch (eGas) {
+console.warn('[TWD] claimReward estimateGas', eGas);
+}
+return defaultGas;
+}
+
+/** TokenPocket 内优先 eth_sendTransaction，避免 web3 estimateGas / send 卡死 */
+async function sendClaimRewardTx(downline, tierId, gasLimit) {
+if (!mainContract || !account) throw new Error('wallet unavailable');
+try {
+await withTimeout(
+walletSimulateCall(function (m) { return m.claimReward(downline, tierId); }),
+12000,
+'simulate timeout'
+);
+} catch (eSim) {
+if (isUserCancellation(eSim)) throw eSim;
+console.warn('[TWD] claimReward simulate', eSim);
+if (!isInAppWalletBrowser()) {
+const msg = translateError(eSim);
+throw new Error(msg);
+}
+}
+showToast(t('walletConfirmClaim'), 'info');
+const eth = getEthereumProvider();
+if (eth && isInAppWalletBrowser()) {
+try {
+const data = mainContract.methods.claimReward(downline, tierId).encodeABI();
+const txHash = await withTimeout(eth.request({
+method: 'eth_sendTransaction',
+params: [{
+from: account,
+to: CONFIG.MAIN_CONTRACT,
+data: data,
+gas: '0x' + Number(gasLimit).toString(16)
+}]
+}), 120000, 'send timeout');
+if (txHash) addLog(tf('logTxSubmittedFmt', { hash: String(txHash).slice(0, 10) + '...' }), 'info');
+return await waitForTxReceipt(txHash, 120000);
+} catch (eDirect) {
+console.warn('[TWD] eth_sendTransaction', eDirect);
+if (isUserCancellation(eDirect)) throw eDirect;
+}
+}
+return await withTimeout(
+sendTxAndWait(mainContract.methods.claimReward(downline, tierId).send({ from: account, gas: gasLimit }), { skipPendingToast: true }),
+120000,
+'send timeout'
+);
+}
+
+const MAIN_ABI = [
+{"inputs":[],"name":"name","outputs":[{"type":"string"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"symbol","outputs":[{"type":"string"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"totalSupply","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"getBurnedAmount","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"balanceOf","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"referrer","outputs":[{"type":"address"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"","type":"address"}],"name":"referralBindCooldown","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"getUserPhase","outputs":[{"type":"uint8"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"","type":"address"},{"name":"","type":"uint8"}],"name":"tierHoldTimer","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"dexBuyAmount","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"refAddr","type":"address"}],"name":"bindReferrer","outputs":[],"stateMutability":"nonpayable","type":"function"},
+{"inputs":[],"name":"lockContract","outputs":[{"type":"address"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"downlines","outputs":[{"type":"address[]"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"downline","type":"address"},{"name":"tierId","type":"uint8"}],"name":"claimReward","outputs":[],"stateMutability":"nonpayable","type":"function"},
+{"inputs":[],"name":"currentPhase","outputs":[{"type":"uint8"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"currentPhaseEnded","outputs":[{"type":"bool"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"","type":"uint256"}],"name":"phaseConfigs","outputs":[{"name":"rewardPercent","type":"uint256"},{"name":"endBurnThreshold","type":"uint256"},{"name":"maxBurnForReward","type":"uint256"},{"name":"requireOldUserClear","type":"bool"},{"name":"oldPhaseCount","type":"uint8"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"user","type":"address"}],"name":"getCurrentPhaseNetHold","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"phase","type":"uint8"},{"name":"tier","type":"uint256"}],"name":"phaseTiers","outputs":[{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"up","type":"address"},{"name":"down","type":"address"},{"name":"phase","type":"uint8"}],"name":"tierClaimed","outputs":[{"type":"uint8"}],"stateMutability":"view","type":"function"},
+{"inputs":[{"name":"","type":"address"}],"name":"totalRewardClaimed","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"}
+];
+
+const LOCK_ABI = [
+{"inputs":[],"name":"getDashboardStats","outputs":[{"name":"privateLockTotal","type":"uint256"},{"name":"privateReleased","type":"uint256"},{"name":"projectLockTotal","type":"uint256"},{"name":"projectReleased","type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"privateLock30","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"privateLock40","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"projectLock30","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"projectLock40","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"autoReleaseCooldownRemaining","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+{"inputs":[],"name":"autoReleaseAll","outputs":[{"type":"uint256"}],"stateMutability":"nonpayable","type":"function"}
+];
+
+function formatToken(amount, decimals) {
+decimals = decimals == null ? CONFIG.TOKEN_DECIMALS : decimals;
+const raw = String(amount == null ? "" : amount).trim();
+if (!raw || raw === "0") return "0";
+if (web3 && web3.utils && decimals === 18) {
+try {
+const ether = web3.utils.fromWei(raw, "ether");
+const parts = ether.split(".");
+const whole = Number(parts[0]).toLocaleString();
+if (!parts[1] || /^0+$/.test(parts[1])) return whole;
+const frac = parts[1].replace(/0+$/, "").slice(0, 4);
+return frac ? whole + "." + frac : whole;
+} catch (eFrom) {}
+}
+if (typeof BigInt !== "undefined") {
+try {
+const num = BigInt(raw);
+const divisor = BigInt(10 ** decimals);
+const whole = num / divisor;
+const remainder = num % divisor;
+const fraction = remainder.toString().padStart(decimals, "0").slice(0, 4);
+if (remainder === 0n) return whole.toLocaleString();
+return (whole + "." + fraction).replace(/\.?0+$/, "");
+} catch (eBi) {}
+}
+return raw;
+}
+
+function formatDate(timestamp) {
+if (!timestamp || timestamp === '0') return '--';
+const date = new Date(Number(timestamp) * 1000);
+return date.toLocaleString('zh-CN', {month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+}
+
+function showToast(message, type = 'info') {
+const toast = document.getElementById('toast');
+const raw = String(message);
+toast.textContent = type === 'error' ? sanitizeUserFacingText(raw) : raw;
+toast.className = `toast ${type} show`;
+setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function showError(msg, elementId = 'referralError') {
+const box = document.getElementById(elementId);
+box.textContent = sanitizeUserFacingText(String(msg));
+box.classList.add('show');
+setTimeout(() => box.classList.remove('show'), 5000);
+}
+
+/** 「我的」页核心数据（余额/累计买入/推荐人）— 优先 raw eth_call */
+async function loadMyWalletPanel() {
+if (!account || isZeroContractAddress(CONFIG.MAIN_CONTRACT)) return;
+let okBal = false;
+let okDex = false;
+try {
+const bal = await rawReadBalance(account);
+setElText('userBalance', formatToken(bal));
+okBal = true;
+console.info('[TWD] balance ok (raw)', bal);
+} catch (eRaw) {
+console.warn('loadMyWalletPanel raw balance', eRaw);
+try {
+const bal = await viewCall(function (m) { return m.balanceOf(account); });
+setElText('userBalance', formatToken(toDecimalString(bal)));
+okBal = true;
+} catch (e) {
+console.warn('loadMyWalletPanel balance', e);
+setElText('userBalance', '--');
+}
+}
+try {
+const dex = await rawReadDexBuy(account);
+setElText('dexBuy', formatToken(dex));
+okDex = true;
+console.info('[TWD] dexBuy ok (raw)', dex);
+} catch (eRaw2) {
+console.warn('loadMyWalletPanel raw dexBuy', eRaw2);
+try {
+const dex = await viewCall(function (m) { return m.dexBuyAmount(account); });
+setElText('dexBuy', formatToken(toDecimalString(dex)));
+okDex = true;
+} catch (e) {
+console.warn('loadMyWalletPanel dexBuy', e);
+setElText('dexBuy', '--');
+}
+}
+await refreshReferrerRow();
+if (!okBal && !okDex) {
+showToast(t('chainReadFailed') + ' (TP: 请确认 BSC 主网、可暂时关闭 VPN)', 'error');
+}
+void loadTotalRewardClaimedPanel().catch(function (e) { console.warn('loadTotalRewardClaimedPanel', e); });
+}
+
+function switchTab(tabName) {
+document.querySelectorAll('.tab-btn').forEach(btn => {
+btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
+});
+document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+const pane = document.getElementById('tab-' + tabName);
+if (pane) pane.classList.add('active');
+if (tabName === 'lock' && mainContract) {
+void loadLockData().catch(function (e) { console.warn('loadLockData tab', e); });
+}
+if (tabName === 'info' && account) {
+void loadMyWalletPanel().catch(function (e) { console.warn('loadMyWalletPanel tab', e); });
+void loadDownlineReferralTierPanel().catch(function (e) { console.warn('loadDownlineReferralTierPanel tab', e); });
+}
+if (tabName === 'referral' && account) {
+void loadUplineDownlineClaimList({ skipCooldown: true }).catch(function (e) { console.warn('loadUplineDownlineClaimList tab', e); });
+}
+if (tabName === 'home') {
+void loadHomePhaseTiers().catch(function (e) { console.warn('loadHomePhaseTiers tab', e); });
+}
+}
+
+function getReferrerFromURL() {
+const params = new URLSearchParams(window.location.search);
+return params.get('ref');
+}
+
+function getEthereumProvider() {
+if (window.ethereum) return window.ethereum;
+if (window.tokenpocket && window.tokenpocket.ethereum) return window.tokenpocket.ethereum;
+if (window.tp && window.tp.ethereum) return window.tp.ethereum;
+if (window.web3 && window.web3.currentProvider) return window.web3.currentProvider;
+return null;
+}
+
+async function connectWallet() {
+const ethereum = getEthereumProvider();
+if (!ethereum) {
+showToast(t('installWallet'), 'error');
+return;
+}
+
+try {
+let accounts = [];
+try {
+accounts = await ethereum.request({ method: 'eth_accounts' });
+} catch (e0) { accounts = []; }
+if (!accounts || accounts.length === 0) {
+try {
+accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+} catch (e) {
+if (ethereum.enable) accounts = await ethereum.enable();
+else throw e;
+}
+}
+if (!accounts || accounts.length === 0) throw new Error(t('walletDenied'));
+
+if (!(await ensureWalletOnConfiguredChain(ethereum))) return;
+
+account = accounts[0];
+web3 = new Web3(ethereum);
+mainContract = new web3.eth.Contract(MAIN_ABI, CONFIG.MAIN_CONTRACT);
+await initReadProvider();
+if (!readContract && mainContract) {
+readWeb3 = web3;
+readContract = mainContract;
+}
+
+document.getElementById('beforeConnect').classList.add('hidden');
+document.getElementById('mainContent').classList.remove('hidden');
+setRefreshButtonVisible(true);
+updateRefreshButtonState();
+updateStatus('connected', account.slice(0,6) + '...' + account.slice(-4));
+void loadHomePhaseTiers().catch(function (e) { console.warn('[TWD] loadHomePhaseTiers connect', e); });
+
+const referralLink = buildReferralLink(account);
+document.getElementById('referralLink').value = referralLink;
+
+
+const mainConfigured = !isZeroContractAddress(CONFIG.MAIN_CONTRACT);
+if (mainConfigured) {
+await loadLockData();
+await refreshReferrerRow();
+await loadMyWalletPanel();
+await refreshData({ silentOnReadFailure: true });
+} else {
+showToast(t('contractNotConfigured'), 'error');
+}
+
+const pendingRef = parseEthAddressInput(getReferrerFromURL());
+if (pendingRef) {
+const refInput = document.getElementById('referrerInput');
+if (refInput) refInput.value = pendingRef;
+}
+clearAutoBindTimer();
+if (mainConfigured && pendingRef) {
+normalizeReferrerInputField();
+try {
+const myRefN = await readReferrerOf(account);
+if (!myRefN || isZeroContractAddress(myRefN)) {
+if (pendingRef.toLowerCase() !== account.toLowerCase()) {
+showToast(t('refLinkPrefilled'), 'info');
+}
+}
+} catch (e) {
+console.log('检查推荐人状态失败:', e);
+showToast(t('refLinkPrefilled'), 'info');
+}
+}
+
+if (!ethereum._xylWalletListeners) {
+ethereum._xylWalletListeners = true;
+ethereum.on('accountsChanged', (accounts) => {
+if (!accounts || accounts.length === 0) disconnectWallet();
+else {
+account = accounts[0];
+updateStatus('connected', account.slice(0, 6) + '...' + account.slice(-4));
+void refreshReferrerRow().then(function () {
+return refreshData({ silentOnNoContract: true, silentOnReadFailure: true });
+});
+}
+});
+ethereum.on('chainChanged', () => window.location.reload());
+}
+
+} catch (error) {
+console.error('连接失败:', error);
+let msg = error.message || t('operationError');
+if (msg.includes('User rejected') || msg.includes('用户取消')) msg = t('userRejectConnect');
+showToast(msg, 'error');
+}
+}
+
+function disconnectWallet() {
+clearAutoBindTimer();
+txPipelineBusy = false;
+account = null;
+mainContract = null;
+readWeb3 = null;
+readContract = null;
+document.getElementById('beforeConnect').classList.remove('hidden');
+document.getElementById('mainContent').classList.add('hidden');
+setRefreshButtonVisible(false);
+updateStatus('', t('notConnected'));
+}
+
+function updateStatus(state, text) {
+const dot = document.getElementById('statusDot');
+const statusText = document.getElementById('statusText');
+if (dot) dot.className = 'status-dot ' + state;
+if (statusText) statusText.textContent = text;
+const bar = document.querySelector('.status-bar');
+if (bar) bar.style.display = state === 'connected' ? 'none' : 'flex';
+const holdDot = document.getElementById('holdWalletDot');
+const holdAddr = document.getElementById('holdWalletAddress');
+if (holdDot) holdDot.className = state === 'connected' ? 'status-dot connected' : 'status-dot';
+if (holdAddr) holdAddr.textContent = state === 'connected' ? text : '--';
+}
+
+async function copyReferralLink() {
+const link = document.getElementById('referralLink').value;
+if (!link) {
+showToast(t('connectFirst'), 'error');
+return;
+}
+
+try {
+await navigator.clipboard.writeText(link);
+showToast(t('copySuccess'), 'success');
+} catch (e) {
+const textarea = document.createElement('textarea');
+textarea.value = link;
+document.body.appendChild(textarea);
+textarea.select();
+document.execCommand('copy');
+document.body.removeChild(textarea);
+showToast(t('copySuccess'), 'success');
+}
+}
+
+async function bindReferrer() {
+if (!mainContract || !account) {
+showToast(t('connectFirst'), 'error');
+return;
+}
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) {
+showError(t('contractNotConfigured'));
+return;
+}
+await initReadProvider();
+clearAutoBindTimer();
+if (txPipelineBusy) {
+showToast(t('bindingInProgress'), 'info');
+return;
+}
+const refAddr = normalizeReferrerInputField();
+const errBox = document.getElementById('referralError');
+if (errBox) errBox.classList.remove('show');
+if (!refAddr) {
+showError(t('invalidAddress'));
+return;
+}
+if (isZeroContractAddress(refAddr)) {
+showError(t('zeroAddressNotAllowed'));
+return;
+}
+if (refAddr.toLowerCase() === account.toLowerCase()) {
+showError(t('cannotBindSelf'));
+return;
+}
+
+let existingRef = '';
+try {
+existingRef = await readReferrerOf(account);
+if (existingRef && isLikelyEthAddress(existingRef) && !isZeroContractAddress(existingRef)) {
+showError(t('errAlreadyBound'));
+return;
+}
+} catch (e0) {
+console.warn('bindReferrer read self referrer (skip)', e0);
+}
+
+try {
+const upDexStr = await readDexBuyOf(refAddr);
+const zero = web3 && web3.utils
+? web3.utils.toBN(upDexStr).isZero()
+: (upDexStr === '0' || upDexStr === '' || upDexStr === '0x0');
+if (zero) {
+showError(t('errUplineNoDex'));
+return;
+}
+} catch (e1) {
+console.warn('bindReferrer read upline dexBuy (skip)', e1);
+}
+
+txPipelineBusy = true;
+try {
+let bindGas = 220000;
+try {
+const est = await mainContract.methods.bindReferrer(refAddr).estimateGas({ from: account });
+const n = Number(est);
+if (n > 0) bindGas = Math.min(Math.ceil(n * 1.25), 350000);
+} catch (eGas) {
+console.warn('[TWD] bindReferrer estimateGas, use default gas', eGas);
+}
+await sendTxAndWait(mainContract.methods.bindReferrer(refAddr).send({ from: account, gas: bindGas }));
+showToast(t('bindSuccessToast'), 'success');
+await refreshReferrerRow();
+refreshData();
+} catch (error) {
+console.error('绑定失败:', error);
+if (isUserCancellation(error)) {
+showError(t('errUserRejected'));
+} else {
+const msg = translateError(error);
+if (/failed to fetch|network error|timeout/i.test(msg)) {
+showError(t('chainReadFailed'));
+} else {
+showError(msg);
+}
+}
+} finally {
+txPipelineBusy = false;
+}
+}
+
+async function refreshData(opts) {
+opts = opts || {};
+if (!account) return;
+if (refreshInFlight) {
+if (!opts.silentOnReadFailure && !opts.silentOnNoContract) showToast(t('refreshInProgress'), 'info');
+return refreshInFlight;
+}
+const isManualRefresh = !opts.silentOnReadFailure && !opts.silentOnNoContract;
+if (isManualRefresh) {
+const refreshGate = checkRefreshAllowed();
+if (!refreshGate.ok) {
+showToast(refreshGate.message, 'error');
+return;
+}
+const globalLock = tryAcquireGlobalRefreshLock();
+if (!globalLock.ok) {
+showToast(globalLock.message, 'error');
+return;
+}
+recordRefreshClick();
+} else if (typeof localStorage !== 'undefined') {
+try {
+const raw = localStorage.getItem(REFRESH_LOCK_STORAGE_KEY);
+if (raw) {
+const lock = JSON.parse(raw);
+if (lock && lock.until > Date.now() && lock.tabId !== REFRESH_TAB_ID) return;
+}
+} catch (eSkip) {}
+}
+updateRefreshButtonState();
+refreshInFlight = refreshDataWork(opts).finally(function () {
+refreshInFlight = null;
+if (isManualRefresh) releaseGlobalRefreshLock();
+updateRefreshButtonState();
+});
+return refreshInFlight;
+}
+
+async function refreshDataWork(opts) {
+opts = opts || {};
+if (!mainContract) {
+await loadMyWalletPanel();
+return;
+}
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) {
+if (!opts.silentOnNoContract) showToast(t('contractNotConfigured'), 'error');
+return;
+}
+
+const btn = document.getElementById('refreshBtn');
+if (btn) btn.classList.add('spinning');
+isLoading = true;
+
+let okLock = false;
+
+okLock = await loadLockData();
+
+try {
+await refreshReferrerRow();
+await loadMyWalletPanel();
+
+await loadHomePhaseTiers();
+
+let timer = '0';
+try { timer = String(await readEarliestTierHoldTimer(account)); } catch (eT) { console.warn('tierHoldTimer', eT); }
+setElText('holdStartTime', formatDate(timer));
+if (timer && timer !== '0') {
+setElText('holdEndTime', formatDate(String(Number(timer) + 86400)));
+} else {
+setElText('holdEndTime', '--');
+}
+
+} catch (error) {
+console.error('获取数据失败:', error);
+if (!okLock) okLock = await loadLockData();
+if (!opts.silentOnReadFailure) {
+showToast(t('chainReadFailed'), 'error');
+}
+} finally {
+await loadMyWalletPanel();
+if (!okLock) await loadLockData();
+const activeTab = document.querySelector('.tab-content.active');
+if (activeTab && account) {
+if (activeTab.id === 'tab-info') {
+void loadDownlineReferralTierPanel().catch(function (e) { console.warn('loadDownlineReferralTierPanel refresh', e); });
+}
+if (activeTab.id === 'tab-referral' && uplineDownlineAddressesCache) {
+void loadUplineDownlineClaimList({ skipCooldown: true, skipListFetch: true, addresses: uplineDownlineAddressesCache }).catch(function (e) { console.warn('loadUplineDownlineClaimList refresh', e); });
+}
+}
+if (btn) btn.classList.remove('spinning');
+isLoading = false;
+updateRefreshButtonState();
+}
+}
+
+function getLockContractAddress() {
+const ZERO = '0x0000000000000000000000000000000000000000';
+const fb = (CONFIG.LOCK_CONTRACT || '').trim();
+if (fb && fb.toLowerCase() !== ZERO.toLowerCase()) return fb;
+return null;
+}
+
+function applyLockStats(stats) {
+const ids = ['privateLockTotal', 'privateReleased', 'projectLockTotal', 'projectReleased'];
+const vals = [
+stats.privateLockTotal ?? stats[0],
+stats.privateReleased ?? stats[1],
+stats.projectLockTotal ?? stats[2],
+stats.projectReleased ?? stats[3]
+];
+for (let i = 0; i < ids.length; i++) {
+const el = document.getElementById(ids[i]);
+if (el) el.textContent = formatToken(String(vals[i]));
+}
+}
+
+/** getDashboardStats() 选择器 */
+const LOCK_STATS_SELECTOR = '0xa2f6805c';
+
+function decodeFourUint256Hex(hex) {
+const h = String(hex || '').replace(/^0x/i, '');
+if (h.length < 256) throw new Error('bad eth_call length');
+const out = [];
+for (let i = 0; i < 4; i++) {
+const slice = h.slice(i * 64, (i + 1) * 64);
+if (web3 && web3.utils) out.push(web3.utils.toBN('0x' + slice).toString(10));
+else out.push(BigInt('0x' + slice).toString(10));
+}
+return out;
+}
+
+async function loadLockViaEthCall(lockAddr) {
+const eth = getEthereumProvider();
+if (!eth) return false;
+const hex = await eth.request({
+method: 'eth_call',
+params: [{ to: lockAddr, data: LOCK_STATS_SELECTOR }, 'latest']
+});
+const v = decodeFourUint256Hex(hex);
+if (web3) lockContract = new web3.eth.Contract(LOCK_ABI, lockAddr);
+applyLockStats({ 0: v[0], 1: v[1], 2: v[2], 3: v[3] });
+console.info('[TWD] lock stats ok: eth_call');
+return true;
+}
+
+async function loadLockViaFetch(lockAddr) {
+const urls = rpcUrlList();
+const data = LOCK_STATS_SELECTOR;
+for (let i = 0; i < urls.length; i++) {
+try {
+const res = await fetch(urls[i], {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+jsonrpc: '2.0',
+id: 1,
+method: 'eth_call',
+params: [{ to: lockAddr, data: data }, 'latest']
+})
+});
+const j = await res.json();
+if (j.error || !j.result) continue;
+const v = decodeFourUint256Hex(j.result);
+if (typeof Web3 !== 'undefined') {
+const w = new Web3(new Web3.providers.HttpProvider(urls[i]));
+lockContract = new w.eth.Contract(LOCK_ABI, lockAddr);
+}
+applyLockStats({ 0: v[0], 1: v[1], 2: v[2], 3: v[3] });
+console.info('[TWD] lock stats ok: fetch', urls[i]);
+return true;
+} catch (e) {
+console.warn('[TWD] lock fetch', urls[i], e);
+}
+}
+return false;
+}
+
+function applyLockStatsFallback() {
+const fb = CONFIG.LOCK_STATS_FALLBACK;
+if (!fb) return false;
+applyLockStats(fb);
+console.warn('[TWD] lock stats: CONFIG.LOCK_STATS_FALLBACK');
+return true;
+}
+
+/** 锁仓读链与主合约解耦：eth_call → 钱包/Web3 → fetch → 配置回退 */
+async function loadLockData() {
+const lockAddr = getLockContractAddress();
+if (!lockAddr) return false;
+
+const eth = getEthereumProvider();
+if (eth) {
+try {
+if (await loadLockViaEthCall(lockAddr)) return true;
+} catch (e) { console.warn('[TWD] lock eth_call', e); }
+}
+
+const tried = [];
+async function tryWeb3(w3, label) {
+if (!w3 || tried.indexOf(w3) >= 0) return false;
+tried.push(w3);
+const lock = new w3.eth.Contract(LOCK_ABI, lockAddr);
+const stats = await lock.methods.getDashboardStats().call();
+lockContract = lock;
+applyLockStats(stats);
+console.info('[TWD] lock stats ok:', label);
+return true;
+}
+
+if (web3) {
+try {
+if (await tryWeb3(web3, 'wallet')) return true;
+} catch (e) { console.warn('[TWD] lock wallet', e); }
+}
+if (readWeb3) {
+try {
+if (await tryWeb3(readWeb3, 'readWeb3')) return true;
+} catch (e) { console.warn('[TWD] lock readWeb3', e); }
+}
+const httpW = await connectHttpWeb3();
+if (httpW) {
+try {
+if (await tryWeb3(httpW, 'http')) return true;
+} catch (e) { console.warn('[TWD] lock http', e); }
+}
+
+try {
+if (await loadLockViaFetch(lockAddr)) return true;
+} catch (e) { console.warn('[TWD] lock fetch all', e); }
+
+return applyLockStatsFallback();
+}
+
+async function updateLockAutoReleaseUi() {
+const btn = document.getElementById('btnAutoReleaseLock');
+const hint = document.getElementById('lockCooldownText');
+if (!btn || !hint || !lockContract) return;
+try {
+const rem = await lockContract.methods.autoReleaseCooldownRemaining().call();
+const sec = Number(rem);
+if (sec > 0) {
+const h = Math.floor(sec / 3600);
+const m = Math.floor((sec % 3600) / 60);
+hint.textContent = tf('lockCooldownFmt', { h: h, m: m });
+btn.disabled = true;
+} else {
+hint.textContent = t('lockCooldownReady');
+btn.disabled = false;
+}
+} catch (e) {
+hint.textContent = '';
+btn.disabled = false;
+}
+}
+
+async function autoReleaseAllLock() {
+if (!account) {
+showToast(t('connectWallet'), 'error');
+return;
+}
+if (!lockContract) {
+const ok = await loadLockData();
+if (!ok) {
+showToast(t('chainReadFailed'), 'error');
+return;
+}
+}
+if (txPipelineBusy) {
+showToast(t('duplicateActionWait'), 'error');
+return;
+}
+const btn = document.getElementById('btnAutoReleaseLock');
+if (btn && btn.disabled) return;
+txPipelineBusy = true;
+try {
+await sendTxAndWait(lockContract.methods.autoReleaseAll().send({ from: account }));
+showToast(t('lockAutoReleaseOk'), 'success');
+await loadLockData();
+} catch (e) {
+if (!isUserCancellation(e)) showError(translateError(e));
+} finally {
+txPipelineBusy = false;
+}
+}
+
+const HOLD_LOCK_SECONDS = 24 * 3600;
+let uplineDownlineAddressesCache = null;
+
+/** 仅 downlines() 一次读链，不扫 ReferralBound 日志 */
+async function fetchDownlineListSimple() {
+const upline = account;
+if (!upline) return [];
+try {
+const list = await rawReadDownlines(upline);
+if (list.length) return list;
+} catch (eRaw) {
+console.warn('[TWD] rawReadDownlines failed', eRaw);
+}
+try {
+const list = normalizeAddressArray(await viewCall(function (m) { return m.downlines(upline); }));
+if (list.length) return list;
+} catch (e) {
+console.warn('[TWD] downlines() via viewCall failed', e);
+}
+const contract = vc();
+if (contract) {
+try {
+const list2 = normalizeAddressArray(await contract.methods.downlines(upline).call());
+if (list2.length) return list2;
+} catch (e2) {
+console.warn('[TWD] downlines() unavailable', e2);
+}
+}
+return [];
+}
+
+function downlineTierUiStatus(status) {
+if (status === 'claimable') return 'ready';
+if (status === 'claimed') return 'claimed';
+if (status === 'pending_lock' || status === 'pending_timer') return 'pending';
+return 'inactive';
+}
+
+function downlineTierUiLabel(status) {
+switch (status) {
+case 'claimable': return t('tierStatusReady');
+case 'claimed': return t('tierStatusClaimed');
+case 'pending_lock':
+case 'pending_timer': return t('tierStatusPending');
+default: return t('tierStatusInactive');
+}
+}
+
+/** 评估单个下级各档（或仅一档）状态，与链上 claimReward 对齐 */
+async function evaluateDownlineTiers(upline, downline, options) {
+options = options || {};
+const onlyTierId = options.onlyTierId;
+let currentPhase = 1;
+try {
+currentPhase = await rawReadCurrentPhase();
+} catch (eP) {
+try {
+currentPhase = Number(await viewCall(function (m) { return m.currentPhase(); }));
+} catch (eP2) {
+console.warn('[TWD] currentPhase', eP2);
+currentPhase = 1;
+}
+}
+let myHold = '0';
+let downHold = '0';
+let dexBuy = '0';
+try { myHold = await rawReadNetHold(upline); } catch (eU) {
+try { myHold = toDecimalString(await viewCall(function (m) { return m.getCurrentPhaseNetHold(upline); })); } catch (eU2) { console.warn('[TWD] upline netHold', eU2); }
+}
+try { downHold = await rawReadNetHold(downline); } catch (eD) {
+try { downHold = toDecimalString(await viewCall(function (m) { return m.getCurrentPhaseNetHold(downline); })); } catch (eD2) { console.warn('[TWD] downline netHold', eD2); }
+}
+try { dexBuy = await readDexBuyOf(downline); } catch (eDex) { console.warn('[TWD] dexBuyAmount', downline, eDex); }
+let tierClaimed = 0;
+try { tierClaimed = await rawReadTierClaimed(upline, downline, currentPhase); } catch (eC) {
+try { tierClaimed = Number(await viewCall(function (m) { return m.tierClaimed(upline, downline, currentPhase); })); } catch (eC2) { console.warn('[TWD] tierClaimed', eC2); }
+}
+const nowSec = Math.floor(Date.now() / 1000);
+const tiers = [];
+const tierStart = onlyTierId != null ? onlyTierId : 0;
+const tierEnd = onlyTierId != null ? onlyTierId : 2;
+for (let tierId = tierStart; tierId <= tierEnd; tierId++) {
+let upMin = '0';
+let downMin = '0';
+try {
+const trow = await rawReadPhaseTier(currentPhase, tierId);
+upMin = trow.upMin;
+downMin = trow.downMin;
+} catch (eTier) {
+try {
+const tier = await viewCall(function (m) { return m.phaseTiers(currentPhase, tierId); });
+upMin = String(tier.upMin != null ? tier.upMin : tier[0]);
+downMin = String(tier.downMin != null ? tier.downMin : tier[1]);
+} catch (eTier2) { console.warn('[TWD] phaseTiers', currentPhase, tierId, eTier2); }
+}
+let timer = '0';
+try { timer = await readTierHoldTimerOf(downline, tierId); } catch (eT) {
+try { timer = String(await viewCall(function (m) { return m.tierHoldTimer(downline, tierId); })); } catch (eT2) { console.warn('[TWD] tierHoldTimer', eT2); }
+}
+let status = 'not_eligible';
+if ((tierClaimed & (1 << tierId)) !== 0) status = 'claimed';
+else if (Number(dexBuy) <= 0) status = 'no_dex';
+else if (Number(downHold) < Number(downMin)) status = 'need_downline';
+else if (Number(myHold) < Number(upMin)) status = 'need_upline';
+else if (Number(timer) <= 0) status = 'pending_timer';
+else if (nowSec < Number(timer) + HOLD_LOCK_SECONDS) status = 'pending_lock';
+else status = 'claimable';
+tiers.push({ tierId, status, upMin: String(upMin), downMin: String(downMin), timer: String(timer) });
+}
+return {
+phase: String(currentPhase),
+myHold: String(myHold),
+downHold: String(downHold),
+dexBuy: String(dexBuy),
+tiers
+};
+}
+
+/** 读取并展示累计领取总计（链上 totalRewardClaimed） */
+async function loadTotalRewardClaimedPanel() {
+if (!account || isZeroContractAddress(CONFIG.MAIN_CONTRACT)) return;
+let total = '0';
+try {
+total = await rawReadTotalRewardClaimed(account);
+} catch (eRaw) {
+try {
+total = toDecimalString(await viewCall(function (m) { return m.totalRewardClaimed(account); }));
+} catch (e) {
+console.warn('[TWD] totalRewardClaimed', e);
+}
+}
+const formatted = formatToken(String(total));
+setElText('totalRewardClaimed', formatted);
+}
+
+function renderMyTierStatusList(tiers) {
+const listEl = document.getElementById('myTierStatusList');
+if (!listEl) return;
+listEl.replaceChildren();
+for (const tier of tiers) {
+const row = document.createElement('div');
+row.className = 'tier-status-row ' + downlineTierUiStatus(tier.status);
+const left = document.createElement('span');
+left.textContent = (tier.tierId + 1) + t('tierClaim');
+const right = document.createElement('span');
+right.textContent = downlineTierUiLabel(tier.status);
+row.appendChild(left);
+row.appendChild(right);
+listEl.appendChild(row);
+}
+}
+
+/** 下级「我的」页：只读档位 + 提醒推荐人领取 */
+async function loadDownlineReferralTierPanel() {
+const card = document.getElementById('downlineTierCard');
+if (!card || !account || isZeroContractAddress(CONFIG.MAIN_CONTRACT)) {
+if (card) card.style.display = 'none';
+return;
+}
+let referrerAddr = null;
+try {
+referrerAddr = await readReferrerOf(account);
+} catch (e) {
+console.warn('[TWD] referrer', e);
+}
+if (!referrerAddr || !isLikelyEthAddress(referrerAddr) || isZeroContractAddress(referrerAddr)) {
+card.style.display = 'none';
+return;
+}
+card.style.display = 'block';
+const listEl = document.getElementById('myTierStatusList');
+if (listEl) {
+listEl.replaceChildren();
+const loading = document.createElement('p');
+loading.className = 'referral-hint';
+loading.textContent = t('tierPanelLoading');
+listEl.appendChild(loading);
+}
+try {
+const result = await evaluateDownlineTiers(referrerAddr, account);
+const myHoldEl = document.getElementById('myNetHoldLine');
+const uplineHoldEl = document.getElementById('myUplineHoldLine');
+const askHint = document.getElementById('askReferrerClaimHint');
+if (myHoldEl) myHoldEl.textContent = tf('myNetHoldLine', { hold: formatToken(result.downHold) });
+if (uplineHoldEl) uplineHoldEl.textContent = tf('myUplineHoldLine', { hold: formatToken(result.myHold) });
+renderMyTierStatusList(result.tiers);
+if (askHint) {
+const ready = result.tiers.filter(function (trow) { return trow.status === 'claimable'; });
+if (ready.length > 0) {
+const addrShort = referrerAddr.slice(0, 6) + '...' + referrerAddr.slice(-4);
+askHint.style.display = 'block';
+askHint.textContent = tf('askReferrerClaim', { tier: ready[0].tierId + 1, addr: addrShort });
+} else {
+askHint.style.display = 'none';
+askHint.textContent = '';
+}
+}
+} catch (e) {
+console.warn('[TWD] loadDownlineReferralTierPanel', e);
+showToast(t('chainReadFailed'), 'error');
+}
+}
+
+function uplineTierBtnClass(status) {
+if (status === 'claimable') return 'can-claim';
+if (status === 'claimed') return 'claimed';
+return 'inactive';
+}
+
+function applyTierClaimBtnState(btn, tierId, status, downline, tierRow, myHold) {
+if (!btn) return;
+btn.className = 'tier-claim-btn ' + uplineTierBtnClass(status);
+btn.removeAttribute('title');
+if (status === 'claimed') {
+btn.textContent = tf('claimTierBtnClaimed', { tier: tierId + 1 });
+btn.disabled = true;
+btn.onclick = null;
+} else if (status === 'claimable') {
+btn.textContent = tf('claimTierBtn', { tier: tierId + 1 });
+btn.disabled = false;
+btn.onclick = function () { void claimOneTier(downline, tierId, btn); };
+} else {
+btn.textContent = tf('claimTierBtn', { tier: tierId + 1 });
+btn.disabled = true;
+btn.onclick = null;
+const tip = tierStatusLabel(status, tierRow || { upMin: '0' }, myHold);
+if (tip && tip !== '--') btn.title = tip;
+}
+}
+
+async function refreshUplineDownlineTierButtons(addresses) {
+const listEl = document.getElementById('uplineDownlineClaimList');
+if (!listEl || !account || !addresses || !addresses.length) return;
+const gen = ++downlineTierRefreshGen;
+const batchSize = SECURITY.DOWNLINE_TIER_BATCH_SIZE;
+for (let i = 0; i < addresses.length; i += batchSize) {
+if (gen !== downlineTierRefreshGen) return;
+const batch = addresses.slice(i, i + batchSize);
+await Promise.all(batch.map(async function (downline) {
+const rowKey = String(downline).toLowerCase();
+const row = listEl.querySelector('.upline-downline-row[data-downline="' + rowKey + '"]');
+if (!row) return;
+const buttons = row.querySelectorAll('.tier-claim-btn');
+for (let j = 0; j < buttons.length; j++) {
+buttons[j].className = 'tier-claim-btn loading-tier';
+buttons[j].disabled = true;
+}
+try {
+const ev = await evaluateDownlineTiers(account, downline);
+if (gen !== downlineTierRefreshGen) return;
+for (const tier of ev.tiers) {
+applyTierClaimBtnState(buttons[tier.tierId], tier.tierId, tier.status, downline, tier, ev.myHold);
+}
+} catch (e) {
+console.warn('[TWD] refreshUplineDownlineTierButtons', downline, e);
+for (let tierId = 0; tierId < buttons.length; tierId++) {
+applyTierClaimBtnState(buttons[tierId], tierId, 'not_eligible', downline, { upMin: '0' }, '0');
+}
+}
+}));
+if (i + batchSize < addresses.length) {
+await new Promise(function (r) { setTimeout(r, SECURITY.DOWNLINE_TIER_BATCH_DELAY_MS); });
+}
+}
+}
+
+function renderUplineDownlineClaimList() {
+const listEl = document.getElementById('uplineDownlineClaimList');
+if (!listEl) return;
+const full = uplineDownlineAddressesCache || [];
+const addresses = getDisplayedDownlineAddresses(full);
+listEl.replaceChildren();
+if (!full.length) {
+const empty = document.createElement('p');
+empty.className = 'referral-hint';
+empty.textContent = t('statusNoDownline');
+listEl.appendChild(empty);
+return;
+}
+const title = document.createElement('div');
+title.className = 'card-title';
+title.style.fontSize = '13px';
+title.textContent = t('downlineListTitle') + ' (' + full.length + ')';
+listEl.appendChild(title);
+if (full.length > addresses.length) {
+const hint = document.createElement('p');
+hint.className = 'referral-hint';
+hint.style.marginTop = '6px';
+hint.textContent = tf('downlineListTruncated', { shown: addresses.length, total: full.length });
+listEl.appendChild(hint);
+}
+for (const downline of addresses) {
+const row = document.createElement('div');
+row.className = 'upline-downline-row';
+row.dataset.downline = String(downline).toLowerCase();
+const addrLine = document.createElement('div');
+addrLine.className = 'downline-address';
+addrLine.textContent = downline.slice(0, 6) + '...' + downline.slice(-4);
+addrLine.title = downline;
+row.appendChild(addrLine);
+const actions = document.createElement('div');
+actions.className = 'upline-downline-actions';
+for (let tierId = 0; tierId < 3; tierId++) {
+const btn = document.createElement('button');
+btn.type = 'button';
+btn.className = 'tier-claim-btn loading-tier';
+btn.textContent = tf('claimTierBtn', { tier: tierId + 1 });
+btn.disabled = true;
+actions.appendChild(btn);
+}
+row.appendChild(actions);
+listEl.appendChild(row);
+}
+if (full.length > addresses.length) {
+const moreBtn = document.createElement('button');
+moreBtn.type = 'button';
+moreBtn.className = 'btn btn-primary';
+moreBtn.style.marginTop = '12px';
+moreBtn.style.width = '100%';
+moreBtn.textContent = tf('loadMoreDownlines', { n: full.length - addresses.length });
+moreBtn.onclick = function () { loadMoreDownlineDisplay(); };
+listEl.appendChild(moreBtn);
+}
+}
+
+function loadMoreDownlineDisplay() {
+const full = uplineDownlineAddressesCache || [];
+if (!full.length) return;
+const prev = uplineDownlineDisplayCount > 0 ? uplineDownlineDisplayCount : SECURITY.DOWNLINE_INITIAL_SHOW;
+uplineDownlineDisplayCount = Math.min(prev + SECURITY.DOWNLINE_LOAD_MORE_STEP, full.length);
+renderUplineDownlineClaimList();
+void refreshUplineDownlineTierButtons(getDisplayedDownlineAddresses(full)).catch(function (e) {
+console.warn('[TWD] loadMoreDownlineDisplay tiers', e);
+});
+}
+
+/** 上级「推广」页：一次 downlines()，点档时再读该人并领取 */
+async function loadUplineDownlineClaimList(options) {
+options = options || {};
+if (!account || isZeroContractAddress(CONFIG.MAIN_CONTRACT)) return;
+if (!options.skipCooldown) {
+const gate = checkLoadDownlineAllowed();
+if (!gate.ok) {
+showToast(gate.message, 'error');
+return;
+}
+recordLoadDownlineClick();
+}
+const listEl = document.getElementById('uplineDownlineClaimList');
+const hintEl = document.getElementById('uplineHoldHint');
+if (listEl && !options.skipListFetch) {
+listEl.replaceChildren();
+const loading = document.createElement('p');
+loading.className = 'referral-hint';
+loading.textContent = t('loadDownlineListBusy');
+listEl.appendChild(loading);
+}
+try {
+let addresses = options.addresses;
+if (!addresses) {
+addresses = await fetchDownlineListSimple();
+uplineDownlineAddressesCache = addresses;
+uplineDownlineDisplayCount = Math.min(addresses.length, SECURITY.DOWNLINE_INITIAL_SHOW);
+downlineTierRefreshGen++;
+}
+try {
+const myHold = await viewCall(function (m) { return m.getCurrentPhaseNetHold(account); });
+if (hintEl) {
+hintEl.style.display = 'block';
+hintEl.textContent = tf('uplineHoldLine', { hold: formatToken(myHold) });
+}
+} catch (eH) {
+console.warn('[TWD] upline hold', eH);
+}
+renderUplineDownlineClaimList();
+void refreshUplineDownlineTierButtons(getDisplayedDownlineAddresses(addresses)).catch(function (e) {
+console.warn('[TWD] refreshUplineDownlineTierButtons', e);
+});
+} catch (e) {
+console.error('[TWD] loadUplineDownlineClaimList', e);
+if (listEl) {
+listEl.replaceChildren();
+const err = document.createElement('p');
+err.className = 'referral-hint';
+err.textContent = t('refreshFailed') + ': ' + translateError(e);
+listEl.appendChild(err);
+}
+showToast(t('refreshFailed'), 'error');
+}
+}
+
+async function claimOneTier(downline, tierId, btnEl) {
+if (!mainContract || !account) return;
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) {
+showToast(t('contractNotConfigured'), 'error');
+return;
+}
+if (txPipelineBusy) {
+showToast(t('duplicateActionWait'), 'error');
+return;
+}
+txPipelineBusy = true;
+let verifiedTier = null;
+let verifiedEv = null;
+if (btnEl) {
+btnEl.className = 'tier-claim-btn loading-tier';
+btnEl.disabled = true;
+}
+try {
+showToast(t('claimTierVerifying'), 'info');
+const ev = await evaluateDownlineTiers(account, downline, { onlyTierId: tierId });
+verifiedEv = ev;
+const tier = ev.tiers[0];
+verifiedTier = tier;
+if (!tier || tier.status !== 'claimable') {
+showToast(tierStatusLabel(tier ? tier.status : 'not_eligible', tier || { upMin: '0' }, ev.myHold), 'error');
+if (btnEl) applyTierClaimBtnState(btnEl, tierId, tier ? tier.status : 'not_eligible', downline, tier || { upMin: '0' }, ev.myHold);
+return;
+}
+const claimLog = document.getElementById('claimLog');
+if (claimLog) claimLog.style.display = 'block';
+const addrShort = downline.slice(0, 6) + '...' + downline.slice(-4);
+addLog(tf('logTryClaimFmt', { addr: addrShort, tier: tierId + 1 }), 'info');
+addLog(t('claimOpeningWallet'), 'info');
+const claimGas = await resolveClaimGas(downline, tierId);
+await sendClaimRewardTx(downline, tierId, claimGas);
+addLog(tf('logTierOkFmt', { tier: tierId + 1 }), 'success');
+showToast(t('claimSuccess'), 'success');
+if (btnEl) applyTierClaimBtnState(btnEl, tierId, 'claimed', downline, tier, ev.myHold);
+void loadTotalRewardClaimedPanel().catch(function (e) { console.warn('loadTotalRewardClaimedPanel after claim', e); });
+} catch (e) {
+if (isUserCancellation(e)) {
+addLog(t('userCancelled'), 'error');
+showToast(t('userCancelled'), 'error');
+} else {
+const msg = translateError(e);
+addLog(tf('logTierFailFmt', { tier: tierId + 1, msg: msg }), 'error');
+showToast(t('claimFailed') + ': ' + msg, 'error');
+}
+if (btnEl && verifiedTier && verifiedTier.status === 'claimable') {
+applyTierClaimBtnState(btnEl, tierId, 'claimable', downline, verifiedTier, verifiedEv ? verifiedEv.myHold : '0');
+}
+} finally {
+txPipelineBusy = false;
+}
+}
+
+function tierStatusLabel(status, tierRow, myHoldStr) {
+switch (status) {
+case 'claimable': return t('statusClaimable');
+case 'claimed': return t('statusClaimed');
+case 'need_upline':
+return tf('statusNeedUpline', { need: formatToken(tierRow.upMin), hold: formatToken(myHoldStr) });
+case 'need_downline': return t('statusNeedDownline');
+case 'pending_lock': return t('statusPendingLock');
+case 'pending_timer': return t('statusPendingTimer');
+case 'no_dex': return t('statusNoDex');
+default: return '--';
+}
+}
+
+function addLog(msg, type) {
+const logContent = document.getElementById('logContent');
+const div = document.createElement('div');
+div.className = `log-item log-${type}`;
+div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+logContent.appendChild(div);
+logContent.scrollTop = logContent.scrollHeight;
+}
+
+function showErrorModal(title, message) {
+document.getElementById('errorModalTitle').textContent = title;
+document.getElementById('errorModalMessage').textContent = message;
+document.getElementById('errorModal').style.display = 'flex';
+}
+
+function closeErrorModal() {
+document.getElementById('errorModal').style.display = 'none';
+// 同时隐藏操作日志
+document.getElementById('claimLog').style.display = 'none';
+}
+
+function isUserCancellation(err) {
+if (err && (err.code === 4001 || err.code === 'ACTION_REJECTED')) return true;
+let errMsg = '';
+if (typeof err === 'object' && err !== null) {
+errMsg = err.message || err.reason || '';
+} else {
+errMsg = String(err || '');
+}
+const m = errMsg.toLowerCase();
+return m.includes('user rejected') || m.includes('user denied') || m.includes('rejected the request') || m.includes('cancelled') || m.includes('canceled');
+}
+
+function translateError(err) {
+let errMsg = '';
+if (typeof err === 'object' && err !== null) {
+if (err.message) errMsg = err.message;
+else if (err.reason) errMsg = err.reason;
+else if (err.data) errMsg = JSON.stringify(err.data);
+else errMsg = JSON.stringify(err);
+} else {
+errMsg = String(err || '');
+}
+
+const lower = errMsg.toLowerCase();
+const patterns = [
+['24h hold not met', 'err24hHold'],
+['tier hold timer not started', 'errTierTimer'],
+['tier already claimed', 'errTierClaimed'],
+['down hold not enough', 'errDownHold'],
+['up hold not enough', 'errUpHold'],
+['hold not qualified', 'errHoldQualified'],
+['already bound', 'errAlreadyBound'],
+['invalid referrer', 'errInvalidReferrer'],
+['self ref', 'errSelfRef'],
+['no buy', 'errNoBuy'],
+['too soon', 'errTooSoon'],
+['invalid tier', 'errInvalidTier'],
+['not referrer', 'errNotReferrer'],
+['old user must clear', 'errOldUserClear'],
+['already claimed', 'errAlreadyClaimed'],
+['not qualified', 'errNotQualified'],
+['insufficient balance', 'errInsufficientBalance'],
+['transfer failed', 'errTransferFailed'],
+['unauthorized', 'errUnauthorized'],
+['already signed', 'errAlreadySigned'],
+['not enough signatures', 'errNotEnoughSigs'],
+['invalid address', 'errInvalidAddress'],
+['user rejected', 'errUserRejected'],
+['user denied', 'errUserRejected'],
+['autoreleasecooldown', 'errAutoReleaseCooldown'],
+['failed to fetch', 'chainReadFailed'],
+['network error', 'chainReadFailed'],
+['fetch eth_call', 'chainReadFailed'],
+['send timeout', 'errSendTimeout'],
+['receipt timeout', 'errSendTimeout'],
+['estimateGas timeout', 'errSendTimeout'],
+['simulate timeout', 'errSendTimeout']
+];
+
+for (let i = 0; i < patterns.length; i++) {
+if (lower.includes(patterns[i][0])) return t(patterns[i][1]);
+}
+
+const revertMatch = errMsg.match(/revert(?:ed)?[:\s]+(.+)/i);
+if (revertMatch && revertMatch[1]) {
+const reason = revertMatch[1].trim().slice(0, 120);
+return sanitizeUserFacingText(tf('errRevertFmt', { reason: reason }));
+}
+
+const short = errMsg.length > 120 ? errMsg.substring(0, 120) + '...' : errMsg;
+return sanitizeUserFacingText(tf('errUnknownFmt', { detail: short }));
+}
+
+window.toggleAppMenu = toggleAppMenu;
+window.toggleLangPanel = toggleLangPanel;
+window.setLanguage = setLanguage;
+window.connectWallet = connectWallet;
+window.disconnectWallet = disconnectWallet;
+window.switchTab = switchTab;
+window.copyReferralLink = copyReferralLink;
+window.bindReferrer = bindReferrer;
+window.refreshData = refreshData;
+window.loadUplineDownlineClaimList = loadUplineDownlineClaimList;
+window.loadMoreDownlineDisplay = loadMoreDownlineDisplay;
+window.loadDownlineReferralTierPanel = loadDownlineReferralTierPanel;
+window.loadTotalRewardClaimedPanel = loadTotalRewardClaimedPanel;
+window.claimOneTier = claimOneTier;
+window.closeErrorModal = closeErrorModal;
+
+window.addEventListener('storage', function (e) {
+if (e && e.key === REFRESH_LOCK_STORAGE_KEY) updateRefreshButtonState();
+});
+
+window.addEventListener('load', async () => {
+var langList = document.getElementById('langMenuList');
+if (langList) {
+langList.addEventListener('click', function (e) {
+if (e && e.preventDefault) e.preventDefault();
+var row = (e.target && e.target.closest) ? e.target.closest('.lang-menu-row') : findLangRow(e.target);
+if (!row) return;
+var code = row.getAttribute('data-lang');
+if (code) setLanguage(code);
+});
+}
+var params = new URLSearchParams(window.location.search);
+var urlLang = normalizeLang(params.get('lang'));
+if (urlLang) {
+currentLang = urlLang;
+safeStorageSet(LANG_STORAGE_KEY, urlLang);
+}
+applyTranslations();
+updateLangMenuUI();
+
+var urlRef = parseEthAddressInput(getReferrerFromURL());
+if (urlRef) {
+var refInputBoot = document.getElementById('referrerInput');
+if (refInputBoot) refInputBoot.value = urlRef;
+}
+var refInputEl = document.getElementById('referrerInput');
+if (refInputEl && !refInputEl._xylNormBound) {
+refInputEl._xylNormBound = true;
+refInputEl.addEventListener('blur', function () { normalizeReferrerInputField(); });
+}
+
+/** 锁仓统计为公开读链，无需连接钱包 */
+void loadLockData().catch(function (e) { console.warn('[TWD] boot loadLockData', e); });
+
+/** 首页公开数据：未连接钱包时也尝试读主合约（仅 fetch / HTTP） */
+async function loadPublicHomeStats() {
+if (isZeroContractAddress(CONFIG.MAIN_CONTRACT)) return;
+if (!readWeb3) readWeb3 = await connectHttpWeb3();
+if (!readWeb3) return;
+try {
+await loadHomePhaseTiers();
+} catch (e) { console.warn('[TWD] loadPublicHomeStats', e); }
+}
+void loadPublicHomeStats();
+
+try {
+const ethAuto = getEthereumProvider();
+if (ethAuto) {
+const accounts = await ethAuto.request({ method: 'eth_accounts' });
+if (accounts && accounts.length > 0) {
+await connectWallet();
+}
+}
+} catch (e) {
+console.warn('[TWD] auto connect skipped', e);
+}
+});
+</script>
+
+</body>
+</html>
