@@ -12,10 +12,10 @@
   if (dir.indexOf('/') !== 0) dir = '/' + dir;
   window.__TWD_ASSET_BASE__ = location.origin + dir;
 })();
-/** 隐藏 TP/调试注入的 vConsole（需要调试时 URL 加 ?debug=1） */
+/** 隐藏 TP 注入的 vConsole（仅 CSS，勿 destroy/remove，否则会触发 insertBefore 闪屏报错） */
 (function () {
   if (/[?&]debug=1(?:&|$)/.test(location.search || '')) return;
-  var css = '#__vconsole,.vc-switch,.vc-switch-container{display:none!important;visibility:hidden!important;pointer-events:none!important;opacity:0!important;}';
+  var css = '#__vconsole,.vc-switch,.vc-switch-container{display:none!important;visibility:hidden!important;pointer-events:none!important;opacity:0!important;height:0!important;width:0!important;overflow:hidden!important;}';
   function injectHide() {
     if (document.getElementById('twd-hide-vconsole')) return;
     var s = document.createElement('style');
@@ -23,19 +23,19 @@
     s.textContent = css;
     (document.head || document.documentElement).appendChild(s);
   }
-  function removeVc() {
-    try {
-      if (window.__vconsole && typeof window.__vconsole.destroy === 'function') window.__vconsole.destroy();
-    } catch (e) {}
-    var root = document.getElementById('__vconsole');
-    if (root) root.remove();
-    document.querySelectorAll('.vc-switch,.vc-switch-container').forEach(function (n) { n.remove(); });
+  function isVcNoise(msg) {
+    return /insertbefore|__vconsole|vconsole/i.test(String(msg || ''));
   }
+  window.addEventListener('error', function (e) {
+    if (e && isVcNoise(e.message)) { e.preventDefault(); return true; }
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    var r = e && e.reason;
+    var msg = (r && r.message) ? r.message : String(r || '');
+    if (isVcNoise(msg)) e.preventDefault();
+  });
   injectHide();
-  removeVc();
-  document.addEventListener('DOMContentLoaded', removeVc);
-  window.addEventListener('load', removeVc);
-  setInterval(removeVc, 800);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectHide);
 })();
 </script>
 <!-- 图标与站点同目录部署；GitHub Pages 发布到 twd-frontend 后 TP 可识别 -->
@@ -3446,7 +3446,16 @@ const date = new Date(Number(timestamp) * 1000);
 return date.toLocaleString('zh-CN', {month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
 }
 
+function isNoiseTechnicalError(text) {
+const m = String(text || '').toLowerCase();
+return /insertbefore|reading 'eth'|__vconsole|vconsole|cannot read properties of undefined/.test(m);
+}
+
 function showToast(message, type = 'info') {
+if (type === 'error' && isNoiseTechnicalError(message)) {
+console.warn('[TWD] suppressed error toast:', message);
+return;
+}
 const toast = document.getElementById('toast');
 const raw = String(message);
 toast.textContent = type === 'error' ? sanitizeUserFacingText(raw) : raw;
@@ -3455,7 +3464,12 @@ setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 function showError(msg, elementId = 'referralError') {
+if (isNoiseTechnicalError(msg)) {
+console.warn('[TWD] suppressed inline error:', msg);
+return;
+}
 const box = document.getElementById(elementId);
+if (!box) return;
 box.textContent = sanitizeUserFacingText(String(msg));
 box.classList.add('show');
 setTimeout(() => box.classList.remove('show'), 5000);
@@ -3632,9 +3646,9 @@ ethereum.on('chainChanged', () => window.location.reload());
 
 } catch (error) {
 console.error('连接失败:', error);
-let msg = error.message || t('operationError');
-if (msg.includes('User rejected') || msg.includes('用户取消')) msg = t('userRejectConnect');
-showToast(msg, 'error');
+let msg = translateError(error);
+if (error && error.message && (error.message.includes('User rejected') || error.message.includes('用户取消'))) msg = t('userRejectConnect');
+if (!isNoiseTechnicalError(msg)) showToast(msg, 'error');
 }
 }
 
