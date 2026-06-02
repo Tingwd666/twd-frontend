@@ -299,12 +299,26 @@ background: linear-gradient(90deg, #ffc107, #ffdd59);
 }
 
 .phase-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 8px;
+display: flex;
+align-items: stretch;
+justify-content: center;
+gap: 4px;
+}
+
+.phase-arrow {
+flex-shrink: 0;
+align-self: center;
+color: rgba(165, 243, 252, 0.75);
+font-size: 18px;
+font-weight: 700;
+line-height: 1;
+padding: 0 2px;
+user-select: none;
 }
 
 .phase-item {
+flex: 1;
+min-width: 0;
 text-align: center;
 padding: 10px;
 background: rgba(255,255,255,0.05);
@@ -609,10 +623,14 @@ color: #a5f3fc;
 }
 
 .lang-menu-trigger .lang-chevron {
+flex-shrink: 0;
 margin-left: auto;
-font-size: 12px;
-color: rgba(255, 255, 255, 0.45);
-transition: transform 0.2s;
+width: 0;
+height: 0;
+border-left: 6px solid transparent;
+border-right: 6px solid transparent;
+border-top: 7px solid rgba(165, 243, 252, 0.9);
+transition: transform 0.2s ease;
 }
 
 .lang-menu-trigger.open .lang-chevron {
@@ -794,8 +812,8 @@ grid-template-columns: repeat(4, 1fr);
 grid-template-columns: repeat(4, 1fr);
 }
 
-.phase-grid {
-grid-template-columns: repeat(3, 1fr);
+.phase-arrow {
+font-size: 16px;
 }
 }
 
@@ -1104,7 +1122,7 @@ flex-wrap: wrap;
 <span class="lang-flag" id="langTriggerFlag">🌐</span>
 <span class="lang-short" id="langTriggerShort">TW</span>
 <span style="flex:1;text-align:left;opacity:0.85;font-size:13px;" id="langTriggerLabel">繁體中文</span>
-<span class="lang-chevron" aria-hidden="true">▼</span>
+<span class="lang-chevron" aria-hidden="true"></span>
 </button>
 <div class="lang-menu-list" id="langMenuList">
 <button type="button" class="lang-menu-row" data-lang="zh-CN" onclick="setLanguage('zh-CN')"><span>🇨🇳</span><span>简体中文</span><span style="margin-left:auto;opacity:0.5;font-size:12px;">CN</span></button>
@@ -1156,10 +1174,12 @@ flex-wrap: wrap;
 <div class="phase-num" data-i18n="phase1">阶段1</div>
 <div class="phase-label" data-i18n="reward1Percent">1% 奖励</div>
 </div>
+<span class="phase-arrow" aria-hidden="true">›</span>
 <div class="phase-item" id="phase2">
 <div class="phase-num" data-i18n="phase2">阶段2</div>
 <div class="phase-label" data-i18n="reward3Percent">3% 奖励</div>
 </div>
+<span class="phase-arrow" aria-hidden="true">›</span>
 <div class="phase-item" id="phase3">
 <div class="phase-num" data-i18n="phase3">阶段3</div>
 <div class="phase-label" data-i18n="reward5Percent">5% 奖励</div>
@@ -1360,8 +1380,8 @@ flex-wrap: wrap;
 const CONFIG = {
 BSC_RPC: "https://bsc.publicnode.com",
 CHAIN_ID: 56,
-/** 正式主网 UUPS 代理 — 6月1日部署后填写（见 bsc-mainnet-deployment.json） */
-MAIN_CONTRACT: "0x98e35d7c8d51C28FBDd36c91E1DFD634eaC545ED",
+/** 正式主网 UUPS 代理 — 见 bsc-mainnet-deployment.json（2026-05 三档修正后重部署） */
+MAIN_CONTRACT: "0x4D3348b66835A74BFa73474B6f738d75fE040244",
 /** 正式主网锁仓 — 部署 lock 后填写；链上 setLockContract 后可读 lockContract() */
 LOCK_CONTRACT: "0x0000000000000000000000000000000000000000",
 /** 读链失败时的展示回退；initializeLock 后按实际锁仓量更新 */
