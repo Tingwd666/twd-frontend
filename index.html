@@ -12,6 +12,31 @@
   if (dir.indexOf('/') !== 0) dir = '/' + dir;
   window.__TWD_ASSET_BASE__ = location.origin + dir;
 })();
+/** 隐藏 TP/调试注入的 vConsole（需要调试时 URL 加 ?debug=1） */
+(function () {
+  if (/[?&]debug=1(?:&|$)/.test(location.search || '')) return;
+  var css = '#__vconsole,.vc-switch,.vc-switch-container{display:none!important;visibility:hidden!important;pointer-events:none!important;opacity:0!important;}';
+  function injectHide() {
+    if (document.getElementById('twd-hide-vconsole')) return;
+    var s = document.createElement('style');
+    s.id = 'twd-hide-vconsole';
+    s.textContent = css;
+    (document.head || document.documentElement).appendChild(s);
+  }
+  function removeVc() {
+    try {
+      if (window.__vconsole && typeof window.__vconsole.destroy === 'function') window.__vconsole.destroy();
+    } catch (e) {}
+    var root = document.getElementById('__vconsole');
+    if (root) root.remove();
+    document.querySelectorAll('.vc-switch,.vc-switch-container').forEach(function (n) { n.remove(); });
+  }
+  injectHide();
+  removeVc();
+  document.addEventListener('DOMContentLoaded', removeVc);
+  window.addEventListener('load', removeVc);
+  setInterval(removeVc, 800);
+})();
 </script>
 <!-- 图标与站点同目录部署；GitHub Pages 发布到 twd-frontend 后 TP 可识别 -->
 <link rel="shortcut icon" href="favicon.ico">
