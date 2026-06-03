@@ -38,13 +38,12 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectHide);
 })();
 </script>
-<!-- 图标与站点同目录部署；GitHub Pages 发布到 twd-frontend 后 TP 可识别 -->
+<!-- 站点图标统一用 TWD 主 Logo（icon-512）；勿用旧 favicon.svg 紫菱形 -->
+<link rel="icon" href="icon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="32x32">
-<link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
-<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
-<link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#667eea">
 <meta name="application-name" content="Tiny Winged Dragon TWD">
@@ -955,6 +954,27 @@ background: rgba(102,126,234,0.2);
 font-weight: 600;
 }
 
+.contract-info-card {
+margin-top: 12px;
+}
+.contract-addr {
+font-family: ui-monospace, Consolas, monospace;
+font-size: 12px;
+line-height: 1.5;
+word-break: break-all;
+color: rgba(255,255,255,0.85);
+margin: 8px 0 12px;
+}
+.contract-bscscan-link {
+display: inline-block;
+font-size: 13px;
+color: #8b9dff;
+text-decoration: none;
+}
+.contract-bscscan-link:hover {
+text-decoration: underline;
+}
+
 .tier-label, .tier-superior, .tier-subordinate {
 flex: 1;
 text-align: center;
@@ -1240,6 +1260,12 @@ flex-wrap: wrap;
 </div>
 </div>
 
+<div class="card contract-info-card">
+<div class="card-title" data-i18n="officialContractTitle">官方合约（BSC 主网）</div>
+<p class="contract-addr" id="officialContractAddr" title=""></p>
+<a class="contract-bscscan-link" id="officialContractBscScan" href="#" target="_blank" rel="noopener noreferrer" data-i18n="viewOnBscScan">在 BscScan 查看</a>
+</div>
+
 </div>
 
 <div class="tab-content" id="tab-lock">
@@ -1468,7 +1494,9 @@ tabHome: '首頁',
 tabLock: '鎖倉', 
 tabReferral: '推廣', 
 tabInfo: '我的', 
-phaseProgress: '階段進度', 
+phaseProgress: '階段進度',
+officialContractTitle: '官方合約（BSC 主網）',
+viewOnBscScan: '在 BscScan 查看',
 phase1: '階段1', 
 phase2: '階段2', 
 phase3: '階段3', 
@@ -1653,6 +1681,8 @@ tabLock: 'Lock',
 tabReferral: 'Referral',
 tabInfo: 'My',
 phaseProgress: 'Phase Progress',
+officialContractTitle: 'Official contract (BSC mainnet)',
+viewOnBscScan: 'View on BscScan',
 phase1: 'Phase 1',
 phase2: 'Phase 2',
 phase3: 'Phase 3',
@@ -2312,6 +2342,8 @@ tabLock: '锁仓',
 tabReferral: '推广',
 tabInfo: '我的',
 phaseProgress: '阶段进度',
+officialContractTitle: '官方合约（BSC 主网）',
+viewOnBscScan: '在 BscScan 查看',
 referralLink: '推广链接',
 copyLink: '复制',
 bindReferrer: '绑定',
@@ -2512,6 +2544,16 @@ collapseLangPanel();
 toggleAppMenu(false);
 }
 
+function updateOfficialContractDisplay() {
+var addr = String(CONFIG.MAIN_CONTRACT || '').trim();
+var el = document.getElementById('officialContractAddr');
+var link = document.getElementById('officialContractBscScan');
+if (!el || isZeroContractAddress(addr)) return;
+el.textContent = addr;
+el.title = addr;
+if (link) link.href = 'https://bscscan.com/token/' + addr;
+}
+
 function applyTranslations() {
 document.title = t('pageTitle');
 document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -2522,6 +2564,7 @@ document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
 const key = el.getAttribute('data-i18n-placeholder');
 el.placeholder = t(key);
 });
+updateOfficialContractDisplay();
 }
 
 let web3;
@@ -2530,7 +2573,6 @@ let mainContract;
 let readWeb3;
 let readContract;
 let lockContract;
-let isLoading = false;
 let refreshTimestamps = [];
 let lastRefreshClickAt = 0;
 let lastLoadDownlineListAt = 0;
@@ -3267,15 +3309,6 @@ return s;
 }
 
 let txPipelineBusy = false;
-let autoBindTimerId = null;
-
-function clearAutoBindTimer() {
-if (autoBindTimerId != null) {
-clearTimeout(autoBindTimerId);
-autoBindTimerId = null;
-}
-}
-
 function normalizeReferrerInputField() {
 const el = document.getElementById('referrerInput');
 if (!el) return '';
@@ -3404,8 +3437,6 @@ const MAIN_ABI = [
 
 const LOCK_ABI = [
 {"inputs":[],"name":"getDashboardStats","outputs":[{"name":"privateLockTotal","type":"uint256"},{"name":"privateReleased","type":"uint256"},{"name":"projectLockTotal","type":"uint256"},{"name":"projectReleased","type":"uint256"}],"stateMutability":"view","type":"function"},
-{"inputs":[],"name":"privateLock30","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
-{"inputs":[],"name":"privateLock40","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
 {"inputs":[],"name":"projectLock30","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
 {"inputs":[],"name":"projectLock40","outputs":[{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
 {"inputs":[],"name":"autoReleaseCooldownRemaining","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -3613,7 +3644,6 @@ if (pendingRef) {
 const refInput = document.getElementById('referrerInput');
 if (refInput) refInput.value = pendingRef;
 }
-clearAutoBindTimer();
 if (mainConfigured && pendingRef) {
 normalizeReferrerInputField();
 try {
@@ -3624,7 +3654,7 @@ showToast(t('refLinkPrefilled'), 'info');
 }
 }
 } catch (e) {
-console.log('检查推荐人状态失败:', e);
+console.warn('[TWD] check referrer on connect', e);
 showToast(t('refLinkPrefilled'), 'info');
 }
 }
@@ -3653,7 +3683,6 @@ if (!isNoiseTechnicalError(msg)) showToast(msg, 'error');
 }
 
 function disconnectWallet() {
-clearAutoBindTimer();
 txPipelineBusy = false;
 account = null;
 mainContract = null;
@@ -3709,7 +3738,6 @@ showError(t('contractNotConfigured'));
 return;
 }
 await initReadProvider();
-clearAutoBindTimer();
 if (txPipelineBusy) {
 showToast(t('bindingInProgress'), 'info');
 return;
@@ -3836,7 +3864,6 @@ return;
 
 const btn = document.getElementById('refreshBtn');
 if (btn) btn.classList.add('spinning');
-isLoading = true;
 
 let okLock = false;
 
@@ -3876,7 +3903,6 @@ void loadUplineDownlineClaimList({ skipCooldown: true, skipListFetch: true, addr
 }
 }
 if (btn) btn.classList.remove('spinning');
-isLoading = false;
 updateRefreshButtonState();
 }
 }
@@ -4541,16 +4567,11 @@ logContent.appendChild(div);
 logContent.scrollTop = logContent.scrollHeight;
 }
 
-function showErrorModal(title, message) {
-document.getElementById('errorModalTitle').textContent = title;
-document.getElementById('errorModalMessage').textContent = message;
-document.getElementById('errorModal').style.display = 'flex';
-}
-
 function closeErrorModal() {
-document.getElementById('errorModal').style.display = 'none';
-// 同时隐藏操作日志
-document.getElementById('claimLog').style.display = 'none';
+const modal = document.getElementById('errorModal');
+if (modal) modal.style.display = 'none';
+const claimLog = document.getElementById('claimLog');
+if (claimLog) claimLog.style.display = 'none';
 }
 
 function isUserCancellation(err) {
